@@ -133,44 +133,53 @@ matched<-subset(dat, partc==1)
 #Periodo k+1
 library(sandwich)
 library(lmtest)
+
+#Grupo no apareado
 regc1<-lm(y_7~D_i, data=dat)
 alfa_cs1<-summary(regc1)$coefficients[2,1]
 regc1$newse<-vcovHC(regc1, type="HC1")
 se_cs1<-coeftest(regc1,regc1$newse)[2,2]
 
+#Grupo apareado
 regc1m<-lm(y_7~D_i, data=matched)
 alfa_cs1m<-summary(regc1m)$coefficients[2,1]
 regc1m$newse<-vcovHC(regc1m, type="HC1")
 se_cs1m<-coeftest(regc1m,regc1m$newse)[2,2]
 
 #Periodo k+2
+#Grupo no apareado
 regc2<-lm(y_8~D_i, data=dat)
 alfa_cs2<-summary(regc2)$coefficients[2,1]
 regc2$newse<-vcovHC(regc2, type="HC1")
 se_cs2<-coeftest(regc2,regc2$newse)[2,2]
 
+#Grupo apareado
 regc2m<-lm(y_8~D_i, data=matched)
 alfa_cs2m<-summary(regc2m)$coefficients[2,1]
 regc2m$newse<-vcovHC(regc2m, type="HC1")
 se_cs2m<-coeftest(regc2m,regc2m$newse)[2,2]
 
 #Periodo k+3
+#Grupo no apareado
 regc3<-lm(y_9~D_i, data=dat)
 alfa_cs3<-summary(regc3)$coefficients[2,1]
 regc3$newse<-vcovHC(regc3, type="HC1")
 se_cs3<-coeftest(regc3,regc1$newse)[2,2]
 
+#Grupo apareado
 regc3m<-lm(y_9~D_i, data=matched)
 alfa_cs3m<-summary(regc3m)$coefficients[2,1]
 regc3m$newse<-vcovHC(regc3m, type="HC1")
 se_cs3m<-coeftest(regc3m,regc3m$newse)[2,2]
 
 #Periodo k+4
+#Grupo no apareado
 regc4<-lm(y_10~D_i, data=dat)
 alfa_cs4<-summary(regc4)$coefficients[2,1]
 regc4$newse<-vcovHC(regc4, type="HC1")
 se_cs4<-coeftest(regc4,regc4$newse)[2,2]
 
+#Grupo apareado
 regc4m<-lm(y_10~D_i, data=matched)
 alfa_cs4m<-summary(regc4m)$coefficients[2,1]
 regc4m$newse<-vcovHC(regc4m, type="HC1")
@@ -184,33 +193,39 @@ dat<-cbind(id,dat)
 matched<-subset(dat, partc==1)
 
 #Periodo k+3 y k-1
+#Grupo no apareado
 Yit_31<-dat$y_9-dat$y_5
 regdd1<-felm(Yit_31~D_i, clustervar=id, data=dat)
 alfa_dd1<-summary(regdd1)$coefficients[2,1]
 se_dd1<-summary(regdd1)$coefficients[2,2]
 
+#Grupo apareado
 Yit_31<-matched$y_9-matched$y_5
 regdd1m<-felm(Yit_31~D_i, clustervar=matched$id, data=matched)
 alfa_dd1m<-summary(regdd1m)$coefficients[2,1]
 se_dd1m<-summary(regdd1m)$coefficients[2,2]
 
 #Periodo k+3 y k-3
+#Grupo no apareado
 Yit_33<-dat$y_9-dat$y_3
 regdd3<-felm(Yit_33~D_i, clustervar=id, data=dat)
 alfa_dd3<-summary(regdd3)$coefficients[2,1]
 se_dd3<-summary(regdd3)$coefficients[2,2]
 
+#Grupo apareado
 Yit_33<-matched$y_9-matched$y_3
 regdd3m<-felm(Yit_33~D_i, clustervar=matched$id, data=matched)
 alfa_dd3m<-summary(regdd3m)$coefficients[2,1]
 se_dd3m<-summary(regdd3m)$coefficients[2,2]
 
 #Periodo k+3 y k-5
+#Grupo no apareado
 Yit_35<-dat$y_9-dat$y_1
 regdd5<-felm(Yit_35~D_i, clustervar=id, data=dat)
 alfa_dd5<-summary(regdd5)$coefficients[2,1]
 se_dd5<-summary(regdd5)$coefficients[2,2]
 
+#Grupo apareado
 Yit_35<-matched$y_9-matched$y_1
 regdd5m<-felm(Yit_35~D_i, clustervar=matched$id, data=matched)
 alfa_dd5m<-summary(regdd5m)$coefficients[2,1]
@@ -218,7 +233,7 @@ se_dd5m<-summary(regdd5m)$coefficients[2,2]
 
 ##Estimador de Variables instrumentales
 
-#Cargar librer?a para estimar VI
+#Cargar libreria para estimar VI
 library(AER)
 
 #Primera etapa
@@ -231,37 +246,45 @@ dat<-cbind(dat,Z_i)
 matched<-subset(dat, partc==1)
 
 #Periodo k+1
+#Grupo no apareado
 regiv1<-ivreg(y_7~D_i|Z_i, data=dat)
 alfa_iv1<-summary(regiv1)$coefficients[2,1]
 se_iv1<-summary(regiv1)$coefficients[2,2]
 
+#Grupo apareado
 regiv1m<-ivreg(y_7~D_i|Z_i, data=matched)
 alfa_iv1m<-summary(regiv1m)$coefficients[2,1]
 se_iv1m<-summary(regiv1m)$coefficients[2,2]
 
 #Periodo k+2
+#Grupo no apareado
 regiv2<-ivreg(y_8~D_i|Z_i, data=dat)
 alfa_iv2<-summary(regiv2)$coefficients[2,1]
 se_iv2<-summary(regiv2)$coefficients[2,2]
 
+#Grupo apareado
 regiv2m<-ivreg(y_8~D_i|Z_i, data=matched)
 alfa_iv2m<-summary(regiv2m)$coefficients[2,1]
 se_iv2m<-summary(regiv2m)$coefficients[2,2]
 
 #Periodo k+3
+#Grupo no apareado
 regiv3<-ivreg(y_9~D_i|Z_i, data=dat)
 alfa_iv3<-summary(regiv3)$coefficients[2,1]
 se_iv3<-summary(regiv3)$coefficients[2,2]
 
+#Grupo apareado
 regiv3m<-ivreg(y_9~D_i|Z_i, data=matched)
 alfa_iv3m<-summary(regiv3m)$coefficients[2,1]
 se_iv3m<-summary(regiv3m)$coefficients[2,2]
 
 #Periodo k+4
+#Grupo no apareado
 regiv4<-ivreg(y_10~D_i|Z_i, data=dat)
 alfa_iv4<-summary(regiv4)$coefficients[2,1]
 se_iv4<-summary(regiv4)$coefficients[2,2]
 
+#Grupo apareado
 regiv4m<-ivreg(y_10~D_i|Z_i, data=matched)
 alfa_iv4m<-summary(regiv4m)$coefficients[2,1]
 se_iv4m<-summary(regiv4m)$coefficients[2,2]

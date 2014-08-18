@@ -104,7 +104,8 @@
 \tableofcontents
 }
 \newpage
-\# Detalles de la simulación
+
+\section{Detalles de la simulación}\label{detalles-de-la-simulacion}
 
 \subsection{Modelo utilizado}\label{modelo-utilizado}
 
@@ -335,7 +336,7 @@ coeficientes aleatorios.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "Media de u:  3995"
+## [1] "Media de u:  4100"
 \end{verbatim}
 
 \begin{Shaded}
@@ -383,20 +384,13 @@ medio de los valores de los primeros 6 individuos a través del comando
 \end{Shaded}
 
 \begin{verbatim}
-##       y_1    y_2    y_3    y_4    y_5     y_6     y_7     y_8    y_9
-## 1   36.84  809.4  912.6  768.3  198.6  -10.32   26.92  -91.67  320.2
-## 2  812.00  905.0 1154.8  815.5  729.8  722.68  949.64  556.57  722.2
-## 3  799.64 1081.2  857.9  964.0 1330.5 1082.96 1236.82  854.50 1196.7
-## 4  910.28 1248.7  800.7  972.0 1018.4 1449.28 1881.24 1148.25 1041.8
-## 5 1694.78 1676.8 1821.8 1976.5 2094.2 2599.45 1991.43 1971.42 1644.3
-## 6  808.16  625.5  263.9   85.9  179.7  455.76  939.24  555.12  293.6
-##     y_10
-## 1  194.6
-## 2  626.1
-## 3  711.3
-## 4  822.9
-## 5 1614.4
-## 6  586.2
+##      y_1    y_2     y_3    y_4    y_5    y_6    y_7    y_8    y_9   y_10
+## 1  302.7 -201.8  -66.73  384.8  590.9  114.5  436.0  576.2  300.7  636.1
+## 2 1451.6 1138.1 1264.00 1107.4  892.4  546.7  865.4  480.1 1074.4  442.3
+## 3  669.5  627.3  335.75  174.3  428.4  783.0  939.4 1550.0 1873.2 1558.3
+## 4 1010.7 1426.5 1869.04 1720.8 1458.3 1983.0 1937.1 2179.5 2189.8 2098.8
+## 5 1772.1 1663.4 1920.37 1100.4 1462.7 1212.5 1268.9  805.4  589.4  754.9
+## 6 1414.3 1389.5 1388.51 1512.9 1408.6 1526.1 1432.5 1604.0 2095.7 2097.3
 \end{verbatim}
 
 Y luego, se agregan las columnas de valores de $\alpha_{i}$ y $D_{i}$ a
@@ -449,31 +443,31 @@ para que el apareamiento sea con reemplazo.
 ## 
 ## Summary of balance for all data:
 ##          Means Treated Means Control SD Control Mean Diff eQQ Med eQQ Mean
-## distance         0.105         0.099      0.023     0.006   0.005    0.006
-## y_4            894.368      1025.800    518.958  -131.432 118.304  130.101
+## distance         0.113         0.099      0.035     0.014   0.015    0.014
+## y_4            828.485      1031.351    521.756  -202.866 218.349  202.625
 ##          eQQ Max
-## distance   0.015
-## y_4      472.383
+## distance   0.029
+## y_4      302.627
 ## 
 ## 
 ## Summary of balance for matched data:
 ##          Means Treated Means Control SD Control Mean Diff eQQ Med eQQ Mean
-## distance         0.105         0.105      0.024     0.000    0.00    0.001
-## y_4            894.368       894.691    514.607    -0.322   16.79   23.524
+## distance         0.113         0.113      0.039     0.000    0.00    0.001
+## y_4            828.485       829.189    542.703    -0.704   15.36   20.885
 ##          eQQ Max
-## distance   0.013
-## y_4      181.280
+## distance   0.015
+## y_4      151.280
 ## 
 ## Percent Balance Improvement:
 ##          Mean Diff. eQQ Med eQQ Mean eQQ Max
-## distance      99.27   98.46    89.05   16.81
-## y_4           99.75   85.80    81.92   61.62
+## distance      99.24   98.91    92.40   46.35
+## y_4           99.65   92.96    89.69   50.01
 ## 
 ## Sample sizes:
 ##           Control Treated
 ## All           900     100
-## Matched        96     100
-## Unmatched     804       0
+## Matched        95     100
+## Unmatched     805       0
 ## Discarded       0       0
 \end{verbatim}
 
@@ -498,7 +492,7 @@ de tratamiento ($D_{i}=1$).
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 93.05
+## [1] 118.1
 \end{verbatim}
 
 \begin{Shaded}
@@ -508,7 +502,7 @@ de tratamiento ($D_{i}=1$).
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 597.5
+## [1] 627.7
 \end{verbatim}
 
 El valor de $E(\alpha_{i}/D_{i}=1)$ es muy superior al de
@@ -560,7 +554,7 @@ $w$ es la ponderación de la observación apareada.
 \item
   No participantes del programa (individuos con $D_{i}=0$)
 \item
-  No participantes apareados (individuos con $D_{i}=0$ y $w!=0$)
+  No participantes apareados (individuos con $D_{i}=0$ y $w\neq 0$)
 \item
   No participantes apareados (individuos con $D_{i}=0$ y $w=0$)
 \end{itemize}
@@ -605,12 +599,277 @@ ganancia de participar es igual para todos ya que $\alpha$ es idéntico
 para todos los individuos, y es ésta autoselección la que se refleja en
 el ``dip'' mas pronunciado para éste caso.
 
+\section{Simulación de montecarlo}\label{simulacion-de-montecarlo}
+
+La simulación de montecarlo es un método de simulación que se basa en
+remuestreos repetidos de la misma población, en este caso se basa en
+generar 100 muestras de 1000 individuos a los cuales se les estiman un
+conjunto de estimadores que se detallarán a continuación.
+
+\subsection{Estimador ``Cross-section''}\label{estimador-cross-section}
+
+Este estimador se basa en comparar las medias de ingresos entre
+participantes y no participantes en el momento $t$, en este caso se
+escogen cuatro momentos: $k+1$, $k+2$, $k+3$ y $k+4$.
+
+Siguiendo a (Heckman, Lalonde, and Smith 1999, 1986), éste estimador no
+comapra a la misma persona ya que ésta no puede pertenecer
+simultáneamente a los grupos de control y de tratamiento, sino que lo
+hace invocando un supuesto de identificación adicional:
+
+\[ E(Y_{0t}/D=1)=E(Y_{0t}/D=0) \]
+
+Esto es, que las personas que no participan del programa poseen el mismo
+resultado sin tratamiento que los que participan. Si éste supuesto es
+válido, el estimador de corte transversal es:
+
+\[ \left(\overline{Y}_{1t}\right)_{1}-\left(\overline{Y}_{0t}\right)_{0} \]
+
+Y es válido bajo el supuesto de identificación porque:
+
+\[ E\left[\left(\overline{Y}_{1t}\right)_{1}-\left(\overline{Y}_{0t}\right)_{0}\right]=E(\Delta_{t}/D=1) \]
+
+La implementación consiste en calcular una regresión simple por Mínimos
+Cuadrados Ordinarios de $Y_{it}$ en $D_{i}$ para cada período. Comom
+primer lugar se obtiene la submuestra de individuos apareados a partir
+de la variable \texttt{partc}, una dummy igual a 1 si el individuo $i$
+del grupo de control fue matcheado con otro del grupo de tratamiento y 0
+en caso contrario. Luego se repiten las estimaciones, primero para toda
+la población y luego sólo para el grupo apareado (igual a los 100
+individuos del grupo de tratamiento más sus contrapartes apareadas en el
+grupo de control).
+
+El comando \texttt{lm} realiza una regresión lineal entre \texttt{y\_t}
+y \texttt{D\_i} y garda los resultdos en la variable \texttt{regci}
+$(i=1, 2, 3, 4)$, con el comando \texttt{summary} se obtiene el valor
+del coeficiente de la variable \texttt{D\_i}. Por último se utiliza el
+comando \texttt{vcovHC} para estimar los errores estandar robustos a
+heterocedasticidad y autocorrelación (Zeileis 2006), la opción
+\texttt{type="HC1"} se agrega para que el resultado sea similar al
+comando \texttt{robust} de Stata e indica la forma que deberá tener la
+matriz de White, En este caso no es otra cosa que una corrección por
+grados de libertad de dicha matriz, si $e_{i}$ son los errores de la
+regresión y $\mathbf{X}$ es la matriz de regresores, éste estimador de
+la matriz de covarianzas será:
+
+\[ HC1=\frac{N}{N-k}(\mathbf{X}'\mathbf{X})^{-1}\mathbf{X}diag[e_{i}^{2}]\mathbf{X}(\mathbf{X}'\mathbf{X})^{-1}=\frac{N}{N-k}HC0 \]
+
+Por último, con el comando \texttt{coeftest} se obtienen los valores de
+los mencionados errores estándar.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{matched<-}\KeywordTok{subset}\NormalTok{(dat, partc==}\DecValTok{1}\NormalTok{)}
+
+\CommentTok{#Periodo k+1}
+\KeywordTok{library}\NormalTok{(sandwich)}
+\KeywordTok{library}\NormalTok{(lmtest)}
+
+\CommentTok{#Total de la población}
+\NormalTok{regc1<-}\KeywordTok{lm}\NormalTok{(y_7~D_i, }\DataTypeTok{data=}\NormalTok{dat)}
+\NormalTok{alfa_cs1<-}\KeywordTok{summary}\NormalTok{(regc1)$coefficients[}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{]}
+\NormalTok{regc1$newse<-}\KeywordTok{vcovHC}\NormalTok{(regc1, }\DataTypeTok{type=}\StringTok{"HC1"}\NormalTok{)}
+\NormalTok{se_cs1<-}\KeywordTok{coeftest}\NormalTok{(regc1,regc1$newse)[}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{]}
+
+\CommentTok{#Grupo apareado}
+\NormalTok{regc1m<-}\KeywordTok{lm}\NormalTok{(y_7~D_i, }\DataTypeTok{data=}\NormalTok{matched)}
+\NormalTok{alfa_cs1m<-}\KeywordTok{summary}\NormalTok{(regc1m)$coefficients[}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{]}
+\NormalTok{regc1m$newse<-}\KeywordTok{vcovHC}\NormalTok{(regc1m, }\DataTypeTok{type=}\StringTok{"HC1"}\NormalTok{)}
+\NormalTok{se_cs1m<-}\KeywordTok{coeftest}\NormalTok{(regc1m,regc1m$newse)[}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{]}
+
+\CommentTok{#Periodo k+2}
+\CommentTok{#Total de la población}
+\NormalTok{regc2<-}\KeywordTok{lm}\NormalTok{(y_8~D_i, }\DataTypeTok{data=}\NormalTok{dat)}
+\NormalTok{alfa_cs2<-}\KeywordTok{summary}\NormalTok{(regc2)$coefficients[}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{]}
+\NormalTok{regc2$newse<-}\KeywordTok{vcovHC}\NormalTok{(regc2, }\DataTypeTok{type=}\StringTok{"HC1"}\NormalTok{)}
+\NormalTok{se_cs2<-}\KeywordTok{coeftest}\NormalTok{(regc2,regc2$newse)[}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{]}
+
+\CommentTok{#Grupo apareado}
+\NormalTok{regc2m<-}\KeywordTok{lm}\NormalTok{(y_8~D_i, }\DataTypeTok{data=}\NormalTok{matched)}
+\NormalTok{alfa_cs2m<-}\KeywordTok{summary}\NormalTok{(regc2m)$coefficients[}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{]}
+\NormalTok{regc2m$newse<-}\KeywordTok{vcovHC}\NormalTok{(regc2m, }\DataTypeTok{type=}\StringTok{"HC1"}\NormalTok{)}
+\NormalTok{se_cs2m<-}\KeywordTok{coeftest}\NormalTok{(regc2m,regc2m$newse)[}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{]}
+
+\CommentTok{#Periodo k+3}
+\CommentTok{#Total de la población}
+\NormalTok{regc3<-}\KeywordTok{lm}\NormalTok{(y_9~D_i, }\DataTypeTok{data=}\NormalTok{dat)}
+\NormalTok{alfa_cs3<-}\KeywordTok{summary}\NormalTok{(regc3)$coefficients[}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{]}
+\NormalTok{regc3$newse<-}\KeywordTok{vcovHC}\NormalTok{(regc3, }\DataTypeTok{type=}\StringTok{"HC1"}\NormalTok{)}
+\NormalTok{se_cs3<-}\KeywordTok{coeftest}\NormalTok{(regc3,regc1$newse)[}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{]}
+
+\CommentTok{#Grupo apareado}
+\NormalTok{regc3m<-}\KeywordTok{lm}\NormalTok{(y_9~D_i, }\DataTypeTok{data=}\NormalTok{matched)}
+\NormalTok{alfa_cs3m<-}\KeywordTok{summary}\NormalTok{(regc3m)$coefficients[}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{]}
+\NormalTok{regc3m$newse<-}\KeywordTok{vcovHC}\NormalTok{(regc3m, }\DataTypeTok{type=}\StringTok{"HC1"}\NormalTok{)}
+\NormalTok{se_cs3m<-}\KeywordTok{coeftest}\NormalTok{(regc3m,regc3m$newse)[}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{]}
+
+\CommentTok{#Periodo k+4}
+\CommentTok{#Total de la población}
+\NormalTok{regc4<-}\KeywordTok{lm}\NormalTok{(y_10~D_i, }\DataTypeTok{data=}\NormalTok{dat)}
+\NormalTok{alfa_cs4<-}\KeywordTok{summary}\NormalTok{(regc4)$coefficients[}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{]}
+\NormalTok{regc4$newse<-}\KeywordTok{vcovHC}\NormalTok{(regc4, }\DataTypeTok{type=}\StringTok{"HC1"}\NormalTok{)}
+\NormalTok{se_cs4<-}\KeywordTok{coeftest}\NormalTok{(regc4,regc4$newse)[}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{]}
+
+\CommentTok{#Grupo apareado}
+\NormalTok{regc4m<-}\KeywordTok{lm}\NormalTok{(y_10~D_i, }\DataTypeTok{data=}\NormalTok{matched)}
+\NormalTok{alfa_cs4m<-}\KeywordTok{summary}\NormalTok{(regc4m)$coefficients[}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{]}
+\NormalTok{regc4m$newse<-}\KeywordTok{vcovHC}\NormalTok{(regc4m, }\DataTypeTok{type=}\StringTok{"HC1"}\NormalTok{)}
+\NormalTok{se_cs4m<-}\KeywordTok{coeftest}\NormalTok{(regc4m,regc4m$newse)[}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Estimador de
+Diferencias-en-diferencias}\label{estimador-de-diferencias-en-diferencias}
+
+En este caso es posible utilizar el estimador de DiD dada la estructura
+de los datos simulados, ya que se trata de observaciones repetidas de
+los mismos individuos, si además, el cambio medio en las observaciones
+anterior a la aplicación del programa es idéntico para los grupos de
+control y de tratamiento, esto es, si:
+
+\[ E(Y_{0t}-Y_{0t'}/D=1)=E(Y_{0t}-Y_{0t'}/D=0) \]
+
+El estimador de DiD estará dado por:
+$\left(\overline{Y}_{1t}-\overline{Y}_{0t'}\right)_{1}-\left(\overline{Y}_{1t}-\overline{Y}_{0t'}\right)_{0}$
+para $t>k>t'$.
+
+El estimador se implementa de la siguiente forma, primero se calculan
+las diferencias entre los períodos de tiempo deseados y luego se calcula
+el estimador, haciendo una corrección por efectos fijos, para lo que se
+genera una variable identificadora \texttt{id} que permite
+individualizar a cada persona en la muestra y puede utilizarse para
+calcular los errores estándar con efectos fijos, para ello se utiliza el
+comando \texttt{felm} (fixed effects linear model)\footnote{Este
+  estimador implementa la metodología de (Cameron, Gelbach, and Miller
+  2011), aunque aquí se lo utiliza a fines de tener en cuenta los
+  efectos fijos por individuo únicamente.} y se utilzia como variable de
+agrupación al identificador mencionado, el procedimiento para obtener
+tanto los estimadores como los efectos fijos es el mismo que para el
+caso anterior.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(lfe)}
+\NormalTok{id<-}\KeywordTok{seq}\NormalTok{(}\DecValTok{1}\NormalTok{,n,}\DecValTok{1}\NormalTok{)}
+\NormalTok{dat<-}\KeywordTok{cbind}\NormalTok{(id,dat)}
+\NormalTok{matched<-}\KeywordTok{subset}\NormalTok{(dat, partc==}\DecValTok{1}\NormalTok{)}
+
+\CommentTok{#Periodo k+3 y k-1}
+\CommentTok{#Total de la población}
+\NormalTok{Yit_31<-dat$y_9-dat$y_5}
+\NormalTok{regdd1<-}\KeywordTok{felm}\NormalTok{(Yit_31~D_i, }\DataTypeTok{clustervar=}\NormalTok{id, }\DataTypeTok{data=}\NormalTok{dat)}
+\NormalTok{alfa_dd1<-}\KeywordTok{summary}\NormalTok{(regdd1)$coefficients[}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{]}
+\NormalTok{se_dd1<-}\KeywordTok{summary}\NormalTok{(regdd1)$coefficients[}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{]}
+
+\CommentTok{#Grupo apareado}
+\NormalTok{Yit_31<-matched$y_9-matched$y_5}
+\NormalTok{regdd1m<-}\KeywordTok{felm}\NormalTok{(Yit_31~D_i, }\DataTypeTok{clustervar=}\NormalTok{matched$id, }\DataTypeTok{data=}\NormalTok{matched)}
+\NormalTok{alfa_dd1m<-}\KeywordTok{summary}\NormalTok{(regdd1m)$coefficients[}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{]}
+\NormalTok{se_dd1m<-}\KeywordTok{summary}\NormalTok{(regdd1m)$coefficients[}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{]}
+
+\CommentTok{#Periodo k+3 y k-3}
+\CommentTok{#Total de la población}
+\NormalTok{Yit_33<-dat$y_9-dat$y_3}
+\NormalTok{regdd3<-}\KeywordTok{felm}\NormalTok{(Yit_33~D_i, }\DataTypeTok{clustervar=}\NormalTok{id, }\DataTypeTok{data=}\NormalTok{dat)}
+\NormalTok{alfa_dd3<-}\KeywordTok{summary}\NormalTok{(regdd3)$coefficients[}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{]}
+\NormalTok{se_dd3<-}\KeywordTok{summary}\NormalTok{(regdd3)$coefficients[}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{]}
+
+\CommentTok{#Grupo apareado}
+\NormalTok{Yit_33<-matched$y_9-matched$y_3}
+\NormalTok{regdd3m<-}\KeywordTok{felm}\NormalTok{(Yit_33~D_i, }\DataTypeTok{clustervar=}\NormalTok{matched$id, }\DataTypeTok{data=}\NormalTok{matched)}
+\NormalTok{alfa_dd3m<-}\KeywordTok{summary}\NormalTok{(regdd3m)$coefficients[}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{]}
+\NormalTok{se_dd3m<-}\KeywordTok{summary}\NormalTok{(regdd3m)$coefficients[}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{]}
+
+\CommentTok{#Periodo k+3 y k-5}
+\CommentTok{#Total de la población}
+\NormalTok{Yit_35<-dat$y_9-dat$y_1}
+\NormalTok{regdd5<-}\KeywordTok{felm}\NormalTok{(Yit_35~D_i, }\DataTypeTok{clustervar=}\NormalTok{id, }\DataTypeTok{data=}\NormalTok{dat)}
+\NormalTok{alfa_dd5<-}\KeywordTok{summary}\NormalTok{(regdd5)$coefficients[}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{]}
+\NormalTok{se_dd5<-}\KeywordTok{summary}\NormalTok{(regdd5)$coefficients[}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{]}
+
+\CommentTok{#Grupo apareado}
+\NormalTok{Yit_35<-matched$y_9-matched$y_1}
+\NormalTok{regdd5m<-}\KeywordTok{felm}\NormalTok{(Yit_35~D_i, }\DataTypeTok{clustervar=}\NormalTok{matched$id, }\DataTypeTok{data=}\NormalTok{matched)}
+\NormalTok{alfa_dd5m<-}\KeywordTok{summary}\NormalTok{(regdd5m)$coefficients[}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{]}
+\NormalTok{se_dd5m<-}\KeywordTok{summary}\NormalTok{(regdd5m)$coefficients[}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Estimador de Variables
+Instrumentales}\label{estimador-de-variables-instrumentales}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Cargar libreria para estimar VI}
+\KeywordTok{library}\NormalTok{(AER)}
+
+\CommentTok{#Primera etapa}
+\NormalTok{reg1e<-}\KeywordTok{lm}\NormalTok{(D_i~Z_i)}
+\NormalTok{corDZ<-}\KeywordTok{summary}\NormalTok{(reg1e)$coefficients[}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{]}
+\NormalTok{z<-}\StringTok{ }\KeywordTok{summary}\NormalTok{(reg1e)$coefficients[}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{]/}\KeywordTok{summary}\NormalTok{(reg1e)$coefficients[}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{]}
+\NormalTok{p<-}\DecValTok{2}\NormalTok{*}\KeywordTok{dnorm}\NormalTok{(-}\KeywordTok{abs}\NormalTok{(z))}
+
+\NormalTok{dat<-}\KeywordTok{cbind}\NormalTok{(dat,Z_i)}
+\NormalTok{matched<-}\KeywordTok{subset}\NormalTok{(dat, partc==}\DecValTok{1}\NormalTok{)}
+
+\CommentTok{#Periodo k+1}
+\CommentTok{#Total de la población}
+\NormalTok{regiv1<-}\KeywordTok{ivreg}\NormalTok{(y_7~D_i|Z_i, }\DataTypeTok{data=}\NormalTok{dat)}
+\NormalTok{alfa_iv1<-}\KeywordTok{summary}\NormalTok{(regiv1)$coefficients[}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{]}
+\NormalTok{se_iv1<-}\KeywordTok{summary}\NormalTok{(regiv1)$coefficients[}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{]}
+
+\CommentTok{#Grupo apareado}
+\NormalTok{regiv1m<-}\KeywordTok{ivreg}\NormalTok{(y_7~D_i|Z_i, }\DataTypeTok{data=}\NormalTok{matched)}
+\NormalTok{alfa_iv1m<-}\KeywordTok{summary}\NormalTok{(regiv1m)$coefficients[}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{]}
+\NormalTok{se_iv1m<-}\KeywordTok{summary}\NormalTok{(regiv1m)$coefficients[}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{]}
+
+\CommentTok{#Periodo k+2}
+\CommentTok{#Total de la población}
+\NormalTok{regiv2<-}\KeywordTok{ivreg}\NormalTok{(y_8~D_i|Z_i, }\DataTypeTok{data=}\NormalTok{dat)}
+\NormalTok{alfa_iv2<-}\KeywordTok{summary}\NormalTok{(regiv2)$coefficients[}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{]}
+\NormalTok{se_iv2<-}\KeywordTok{summary}\NormalTok{(regiv2)$coefficients[}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{]}
+
+\CommentTok{#Grupo apareado}
+\NormalTok{regiv2m<-}\KeywordTok{ivreg}\NormalTok{(y_8~D_i|Z_i, }\DataTypeTok{data=}\NormalTok{matched)}
+\NormalTok{alfa_iv2m<-}\KeywordTok{summary}\NormalTok{(regiv2m)$coefficients[}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{]}
+\NormalTok{se_iv2m<-}\KeywordTok{summary}\NormalTok{(regiv2m)$coefficients[}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{]}
+
+\CommentTok{#Periodo k+3}
+\CommentTok{#Total de la población}
+\NormalTok{regiv3<-}\KeywordTok{ivreg}\NormalTok{(y_9~D_i|Z_i, }\DataTypeTok{data=}\NormalTok{dat)}
+\NormalTok{alfa_iv3<-}\KeywordTok{summary}\NormalTok{(regiv3)$coefficients[}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{]}
+\NormalTok{se_iv3<-}\KeywordTok{summary}\NormalTok{(regiv3)$coefficients[}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{]}
+
+\CommentTok{#Grupo apareado}
+\NormalTok{regiv3m<-}\KeywordTok{ivreg}\NormalTok{(y_9~D_i|Z_i, }\DataTypeTok{data=}\NormalTok{matched)}
+\NormalTok{alfa_iv3m<-}\KeywordTok{summary}\NormalTok{(regiv3m)$coefficients[}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{]}
+\NormalTok{se_iv3m<-}\KeywordTok{summary}\NormalTok{(regiv3m)$coefficients[}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{]}
+
+\CommentTok{#Periodo k+4}
+\CommentTok{#Total de la población}
+\NormalTok{regiv4<-}\KeywordTok{ivreg}\NormalTok{(y_10~D_i|Z_i, }\DataTypeTok{data=}\NormalTok{dat)}
+\NormalTok{alfa_iv4<-}\KeywordTok{summary}\NormalTok{(regiv4)$coefficients[}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{]}
+\NormalTok{se_iv4<-}\KeywordTok{summary}\NormalTok{(regiv4)$coefficients[}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{]}
+
+\CommentTok{#Grupo apareado}
+\NormalTok{regiv4m<-}\KeywordTok{ivreg}\NormalTok{(y_10~D_i|Z_i, }\DataTypeTok{data=}\NormalTok{matched)}
+\NormalTok{alfa_iv4m<-}\KeywordTok{summary}\NormalTok{(regiv4m)$coefficients[}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{]}
+\NormalTok{se_iv4m<-}\KeywordTok{summary}\NormalTok{(regiv4m)$coefficients[}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
 \newpage
 
 \section{References}\label{references}
 
 Ashenfelter, Orley. 1978. ``Estimating the Effect of Training Programs
 on Earnings.'' \emph{Review of Economics and Statistics} 6 (1): 47--57.
+
+Cameron, A. Colin, Jonah B. Gelbach, and Douglas L. Miller. 2011.
+``Robust Inference with Multiway Clustering.'' \emph{Journal of Business
+and Economic Statistics} 29 (2): 238--249.
+doi:\href{http://dx.doi.org/10.1198/jbes.2010.07136}{10.1198/jbes.2010.07136}.
+\url{http://dx.doi.org/10.1198/jbes.2010.07136}.
 
 Heckman, James, Robert Lalonde, and Jeffrey Smith. 1999. ``The Economics
 and Econometrics of Active Labor Market Programs.'' In \emph{Handbook of
@@ -620,5 +879,9 @@ Labor Economics}, edited by Orley Ashenfelter and David Card,
 Ho, Daniel, Kosuke Imai, Gary King, and Elizabeth Stuart. 2011.
 ``MatchIt: Nonparametric Processing for Parametric Causal Inference.''
 \emph{Journal of Statistical Software} 42 (8): 1--28.
+
+Zeileis, Achim. 2006. ``Object-Oriented Computation of Sandwich
+Estimators.'' \emph{Journal of Statistical Software} 16 (9) (August 15):
+1--16. \url{http://www.jstatsoft.org/v16/i09}.
 
 \end{document}

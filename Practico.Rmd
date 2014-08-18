@@ -8,6 +8,7 @@ output:
 bibliography: Practico.bib
 ---
 \newpage
+
 # Detalles de la simulación
 
 ## Modelo utilizado
@@ -212,7 +213,7 @@ Para evaluar la existencia del "dip" es necesario contar priemro con los datos d
 
 * Participantes del programa (individuos con $D_{i}=1$)
 * No participantes del programa (individuos con $D_{i}=0$)
-* No participantes apareados (individuos con $D_{i}=0$ y $w!=0$)
+* No participantes apareados (individuos con $D_{i}=0$ y $w\neq 0$)
 * No participantes apareados (individuos con $D_{i}=0$ y $w=0$)
 
 
@@ -257,6 +258,213 @@ La figura del ingreso promedio para cada período difiere notablemente de la obt
 Como contracara de lo anterior, las distribuciones de los distintos subgrupos en el caso de los coeficientes aleatorios son muy similares, reflejando con mucha exactitud los resultados de Heckman.
 
 Resumiendo, la diferencia entre el caso de coeficientes fijos y el de coeficientes aleatorios reside en el mecanismo de seleccíon, porque en el segundo sólo dependerá de $\theta_{i}$ y de $U_{it}$ ya que la ganancia de participar es igual para todos ya que $\alpha$ es idéntico para todos los individuos, y es ésta autoselección la que se refleja en el "dip" mas pronunciado para éste caso.
+
+# Simulación de montecarlo
+
+La simulación de montecarlo es un método de simulación que se basa en remuestreos repetidos de la misma población, en este caso se basa en generar 100 muestras de 1000 individuos a los cuales se les estiman un conjunto de estimadores que se detallarán  a continuación.
+
+## Estimador "Cross-section"
+
+Este estimador se basa en comparar las medias de ingresos entre participantes y no participantes en el momento $t$, en este caso se escogen cuatro momentos: $k+1$, $k+2$, $k+3$ y $k+4$.
+
+Siguiendo a [@HLS1999, pág 1986], éste estimador no comapra a la misma persona ya que ésta no puede pertenecer simultáneamente a los grupos de control y de tratamiento, sino que lo hace invocando un supuesto de identificación adicional:
+
+$$ E(Y_{0t}/D=1)=E(Y_{0t}/D=0) $$
+
+Esto es, que las personas que no participan del programa poseen el mismo resultado sin tratamiento que los que participan. Si éste supuesto es válido, el estimador de corte transversal es:
+
+$$ \left(\overline{Y}_{1t}\right)_{1}-\left(\overline{Y}_{0t}\right)_{0} $$
+
+Y es válido bajo el supuesto de identificación porque:
+
+$$ E\left[\left(\overline{Y}_{1t}\right)_{1}-\left(\overline{Y}_{0t}\right)_{0}\right]=E(\Delta_{t}/D=1) $$
+
+La implementación consiste en calcular una regresión simple por Mínimos Cuadrados Ordinarios de $Y_{it}$ en $D_{i}$ para cada período. Comom primer lugar se obtiene la submuestra de individuos apareados a partir de la variable ``partc``, una dummy igual a 1 si el individuo $i$ del grupo de control fue matcheado con otro del grupo de tratamiento y 0 en caso contrario. Luego se repiten las estimaciones, primero para toda la población y luego sólo para el grupo apareado (igual a los 100 individuos del grupo de tratamiento más sus contrapartes apareadas en el grupo de control).
+
+El comando ``lm`` realiza una regresión lineal entre ``y_t`` y ``D_i`` y garda los resultdos en la variable ``regci`` $(i=1, 2, 3, 4)$, con el comando ``summary`` se obtiene el valor del coeficiente de la variable ``D_i``. Por último se utiliza el comando ``vcovHC`` para estimar los errores estandar robustos a heterocedasticidad y autocorrelación [@Zeileis2006], la opción ``type="HC1"`` se agrega para que el resultado sea similar al comando ``robust`` de Stata e indica la forma que deberá tener la matriz de White, En este caso no es otra cosa que una corrección por grados de libertad de dicha matriz, si $e_{i}$ son los errores de la regresión y $\mathbf{X}$ es la matriz de regresores, éste estimador de la matriz de covarianzas será:
+
+$$ HC1=\frac{N}{N-k}(\mathbf{X}'\mathbf{X})^{-1}\mathbf{X}diag[e_{i}^{2}]\mathbf{X}(\mathbf{X}'\mathbf{X})^{-1}=\frac{N}{N-k}HC0 $$ 
+
+Por último, con el comando ``coeftest`` se obtienen los valores de los mencionados errores estándar.
+
+
+
+```{r, eval=FALSE}
+matched<-subset(dat, partc==1)
+
+#Periodo k+1
+library(sandwich)
+library(lmtest)
+
+#Total de la población
+regc1<-lm(y_7~D_i, data=dat)
+alfa_cs1<-summary(regc1)$coefficients[2,1]
+regc1$newse<-vcovHC(regc1, type="HC1")
+se_cs1<-coeftest(regc1,regc1$newse)[2,2]
+
+#Grupo apareado
+regc1m<-lm(y_7~D_i, data=matched)
+alfa_cs1m<-summary(regc1m)$coefficients[2,1]
+regc1m$newse<-vcovHC(regc1m, type="HC1")
+se_cs1m<-coeftest(regc1m,regc1m$newse)[2,2]
+
+#Periodo k+2
+#Total de la población
+regc2<-lm(y_8~D_i, data=dat)
+alfa_cs2<-summary(regc2)$coefficients[2,1]
+regc2$newse<-vcovHC(regc2, type="HC1")
+se_cs2<-coeftest(regc2,regc2$newse)[2,2]
+
+#Grupo apareado
+regc2m<-lm(y_8~D_i, data=matched)
+alfa_cs2m<-summary(regc2m)$coefficients[2,1]
+regc2m$newse<-vcovHC(regc2m, type="HC1")
+se_cs2m<-coeftest(regc2m,regc2m$newse)[2,2]
+
+#Periodo k+3
+#Total de la población
+regc3<-lm(y_9~D_i, data=dat)
+alfa_cs3<-summary(regc3)$coefficients[2,1]
+regc3$newse<-vcovHC(regc3, type="HC1")
+se_cs3<-coeftest(regc3,regc1$newse)[2,2]
+
+#Grupo apareado
+regc3m<-lm(y_9~D_i, data=matched)
+alfa_cs3m<-summary(regc3m)$coefficients[2,1]
+regc3m$newse<-vcovHC(regc3m, type="HC1")
+se_cs3m<-coeftest(regc3m,regc3m$newse)[2,2]
+
+#Periodo k+4
+#Total de la población
+regc4<-lm(y_10~D_i, data=dat)
+alfa_cs4<-summary(regc4)$coefficients[2,1]
+regc4$newse<-vcovHC(regc4, type="HC1")
+se_cs4<-coeftest(regc4,regc4$newse)[2,2]
+
+#Grupo apareado
+regc4m<-lm(y_10~D_i, data=matched)
+alfa_cs4m<-summary(regc4m)$coefficients[2,1]
+regc4m$newse<-vcovHC(regc4m, type="HC1")
+se_cs4m<-coeftest(regc4m,regc4m$newse)[2,2]
+```
+
+## Estimador de Diferencias-en-diferencias
+
+En este caso es posible utilizar el estimador de DiD dada la estructura de los datos simulados, ya que se trata de observaciones repetidas de los mismos individuos, si además, el cambio medio en las observaciones anterior a la aplicación del programa es idéntico para los grupos de control y de tratamiento, esto es, si:
+
+$$ E(Y_{0t}-Y_{0t'}/D=1)=E(Y_{0t}-Y_{0t'}/D=0) $$
+
+El estimador de DiD estará dado por: $\left(\overline{Y}_{1t}-\overline{Y}_{0t'}\right)_{1}-\left(\overline{Y}_{1t}-\overline{Y}_{0t'}\right)_{0}$ para $t>k>t'$.
+
+El estimador se implementa de la siguiente forma, primero se calculan las diferencias entre los períodos de tiempo deseados y luego se calcula el estimador, haciendo una corrección por efectos fijos, para lo que se genera una variable identificadora ``id`` que permite individualizar a cada persona en la muestra y puede utilizarse para calcular los errores estándar con efectos fijos, para ello se utiliza el comando ``felm`` (fixed effects linear model)[^1] y se utilzia como variable de agrupación al identificador mencionado, el procedimiento para obtener tanto los estimadores como los efectos fijos es el mismo que para el caso anterior.
+
+[^1]: Este estimador implementa la metodología de [@CGM2011], aunque aquí se lo utiliza a fines de tener en cuenta los efectos fijos por individuo únicamente.
+
+```{r, eval=FALSE}
+library(lfe)
+id<-seq(1,n,1)
+dat<-cbind(id,dat)
+matched<-subset(dat, partc==1)
+
+#Periodo k+3 y k-1
+#Total de la población
+Yit_31<-dat$y_9-dat$y_5
+regdd1<-felm(Yit_31~D_i, clustervar=id, data=dat)
+alfa_dd1<-summary(regdd1)$coefficients[2,1]
+se_dd1<-summary(regdd1)$coefficients[2,2]
+
+#Grupo apareado
+Yit_31<-matched$y_9-matched$y_5
+regdd1m<-felm(Yit_31~D_i, clustervar=matched$id, data=matched)
+alfa_dd1m<-summary(regdd1m)$coefficients[2,1]
+se_dd1m<-summary(regdd1m)$coefficients[2,2]
+
+#Periodo k+3 y k-3
+#Total de la población
+Yit_33<-dat$y_9-dat$y_3
+regdd3<-felm(Yit_33~D_i, clustervar=id, data=dat)
+alfa_dd3<-summary(regdd3)$coefficients[2,1]
+se_dd3<-summary(regdd3)$coefficients[2,2]
+
+#Grupo apareado
+Yit_33<-matched$y_9-matched$y_3
+regdd3m<-felm(Yit_33~D_i, clustervar=matched$id, data=matched)
+alfa_dd3m<-summary(regdd3m)$coefficients[2,1]
+se_dd3m<-summary(regdd3m)$coefficients[2,2]
+
+#Periodo k+3 y k-5
+#Total de la población
+Yit_35<-dat$y_9-dat$y_1
+regdd5<-felm(Yit_35~D_i, clustervar=id, data=dat)
+alfa_dd5<-summary(regdd5)$coefficients[2,1]
+se_dd5<-summary(regdd5)$coefficients[2,2]
+
+#Grupo apareado
+Yit_35<-matched$y_9-matched$y_1
+regdd5m<-felm(Yit_35~D_i, clustervar=matched$id, data=matched)
+alfa_dd5m<-summary(regdd5m)$coefficients[2,1]
+se_dd5m<-summary(regdd5m)$coefficients[2,2]
+```
+
+## Estimador de Variables Instrumentales
+
+```{r, eval=FALSE}
+#Cargar libreria para estimar VI
+library(AER)
+
+#Primera etapa
+reg1e<-lm(D_i~Z_i)
+corDZ<-summary(reg1e)$coefficients[2,1]
+z<- summary(reg1e)$coefficients[2,1]/summary(reg1e)$coefficients[2,2]
+p<-2*dnorm(-abs(z))
+
+dat<-cbind(dat,Z_i)
+matched<-subset(dat, partc==1)
+
+#Periodo k+1
+#Total de la población
+regiv1<-ivreg(y_7~D_i|Z_i, data=dat)
+alfa_iv1<-summary(regiv1)$coefficients[2,1]
+se_iv1<-summary(regiv1)$coefficients[2,2]
+
+#Grupo apareado
+regiv1m<-ivreg(y_7~D_i|Z_i, data=matched)
+alfa_iv1m<-summary(regiv1m)$coefficients[2,1]
+se_iv1m<-summary(regiv1m)$coefficients[2,2]
+
+#Periodo k+2
+#Total de la población
+regiv2<-ivreg(y_8~D_i|Z_i, data=dat)
+alfa_iv2<-summary(regiv2)$coefficients[2,1]
+se_iv2<-summary(regiv2)$coefficients[2,2]
+
+#Grupo apareado
+regiv2m<-ivreg(y_8~D_i|Z_i, data=matched)
+alfa_iv2m<-summary(regiv2m)$coefficients[2,1]
+se_iv2m<-summary(regiv2m)$coefficients[2,2]
+
+#Periodo k+3
+#Total de la población
+regiv3<-ivreg(y_9~D_i|Z_i, data=dat)
+alfa_iv3<-summary(regiv3)$coefficients[2,1]
+se_iv3<-summary(regiv3)$coefficients[2,2]
+
+#Grupo apareado
+regiv3m<-ivreg(y_9~D_i|Z_i, data=matched)
+alfa_iv3m<-summary(regiv3m)$coefficients[2,1]
+se_iv3m<-summary(regiv3m)$coefficients[2,2]
+
+#Periodo k+4
+#Total de la población
+regiv4<-ivreg(y_10~D_i|Z_i, data=dat)
+alfa_iv4<-summary(regiv4)$coefficients[2,1]
+se_iv4<-summary(regiv4)$coefficients[2,2]
+
+#Grupo apareado
+regiv4m<-ivreg(y_10~D_i|Z_i, data=matched)
+alfa_iv4m<-summary(regiv4m)$coefficients[2,1]
+se_iv4m<-summary(regiv4m)$coefficients[2,2]
+```
 
 \newpage
 

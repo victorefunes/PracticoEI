@@ -6,8 +6,8 @@ names(mat1)<-c("alfa_cs1", "alfa_cs2", "alfa_cs3", "alfa_cs4", "alfa_dd1",
                "mean_alpha_i", "mean_alpha_i_Tr", "mu", "corDZ", "p")
 
 for(w in 1:100){
-  source('C:/Users/VictorF/Dropbox/Evaluación de Impacto/Practico/Practico.R', local=TRUE)
-  print(paste("Simulación: ", w, ""))
+  source('C:/Users/VictorF/Documents/PracticoEI/Practico.R', local=TRUE)
+  print(paste("Simulaci?n: ", w, ""))
   mat1[w,1]<-alfa_cs1
   mat1[w,2]<-alfa_cs2
   mat1[w,3]<-alfa_cs3
@@ -44,8 +44,8 @@ names(mat2)<-c("alfa_cs1m", "alfa_cs2m", "alfa_cs3m", "alfa_cs4m", "alfa_dd1m",
                "se_dd3m", "se_dd5m", "se_iv1m", "se_iv2m", "se_iv3m", "se_iv4m")
 
 for(w in 1:100){
-  source('C:/Users/VictorF/Dropbox/Evaluación de Impacto/Practico/Practico.R', local=TRUE)
-  print(paste("Simulación: ", w, ""))
+  source('C:/Users/VictorF/Documents/PracticoEI/Practico.R', local=TRUE)
+  print(paste("Simulaci?n: ", w, ""))
   mat2[w,1]<-alfa_cs1m
   mat2[w,2]<-alfa_cs2m
   mat2[w,3]<-alfa_cs3m
