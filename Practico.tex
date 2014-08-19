@@ -336,7 +336,7 @@ coeficientes aleatorios.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "Media de u:  4100"
+## [1] "Media de u:  3998"
 \end{verbatim}
 
 \begin{Shaded}
@@ -384,13 +384,13 @@ medio de los valores de los primeros 6 individuos a través del comando
 \end{Shaded}
 
 \begin{verbatim}
-##      y_1    y_2     y_3    y_4    y_5    y_6    y_7    y_8    y_9   y_10
-## 1  302.7 -201.8  -66.73  384.8  590.9  114.5  436.0  576.2  300.7  636.1
-## 2 1451.6 1138.1 1264.00 1107.4  892.4  546.7  865.4  480.1 1074.4  442.3
-## 3  669.5  627.3  335.75  174.3  428.4  783.0  939.4 1550.0 1873.2 1558.3
-## 4 1010.7 1426.5 1869.04 1720.8 1458.3 1983.0 1937.1 2179.5 2189.8 2098.8
-## 5 1772.1 1663.4 1920.37 1100.4 1462.7 1212.5 1268.9  805.4  589.4  754.9
-## 6 1414.3 1389.5 1388.51 1512.9 1408.6 1526.1 1432.5 1604.0 2095.7 2097.3
+##      y_1    y_2    y_3    y_4    y_5    y_6    y_7    y_8    y_9   y_10
+## 1 1369.1  897.2 1367.3 1161.6 1376.7 1725.6  627.6  173.4  198.6  993.5
+## 2 1800.4 1858.9 1804.9 1874.8 1779.1  726.3  401.3  213.6  625.1 1071.8
+## 3  976.3  956.5 1306.0 1724.6 1379.3 1757.3 1106.4 1314.9 1614.4 1529.2
+## 4 1121.7  833.2  860.7  598.1  547.6  592.3  310.2  289.6  420.5  668.3
+## 5  874.5 1056.8  924.4  699.4  994.6  556.5  580.6  603.6  894.3 1220.5
+## 6  800.1  827.6 1173.1 1132.9 1195.7 1136.4 1882.8 1883.9 1776.5 1365.5
 \end{verbatim}
 
 Y luego, se agregan las columnas de valores de $\alpha_{i}$ y $D_{i}$ a
@@ -443,31 +443,31 @@ para que el apareamiento sea con reemplazo.
 ## 
 ## Summary of balance for all data:
 ##          Means Treated Means Control SD Control Mean Diff eQQ Med eQQ Mean
-## distance         0.113         0.099      0.035     0.014   0.015    0.014
-## y_4            828.485      1031.351    521.756  -202.866 218.349  202.625
+## distance         0.109         0.099       0.03      0.01    0.01    0.011
+## y_4            825.772      1003.089     525.58   -177.32  166.19  182.180
 ##          eQQ Max
-## distance   0.029
-## y_4      302.627
+## distance   0.033
+## y_4      757.410
 ## 
 ## 
 ## Summary of balance for matched data:
 ##          Means Treated Means Control SD Control Mean Diff eQQ Med eQQ Mean
-## distance         0.113         0.113      0.039     0.000    0.00    0.001
-## y_4            828.485       829.189    542.703    -0.704   15.36   20.885
+## distance         0.109          0.11      0.033      0.00   0.001    0.001
+## y_4            825.772        824.59    521.751      1.18  30.604   40.421
 ##          eQQ Max
-## distance   0.015
-## y_4      151.280
+## distance    0.01
+## y_4       135.62
 ## 
 ## Percent Balance Improvement:
 ##          Mean Diff. eQQ Med eQQ Mean eQQ Max
-## distance      99.24   98.91    92.40   46.35
-## y_4           99.65   92.96    89.69   50.01
+## distance      98.85   94.19    87.33   70.24
+## y_4           99.33   81.58    77.81   82.09
 ## 
 ## Sample sizes:
 ##           Control Treated
 ## All           900     100
-## Matched        95     100
-## Unmatched     805       0
+## Matched        93     100
+## Unmatched     807       0
 ## Discarded       0       0
 \end{verbatim}
 
@@ -492,7 +492,7 @@ de tratamiento ($D_{i}=1$).
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 118.1
+## [1] 91.17
 \end{verbatim}
 
 \begin{Shaded}
@@ -502,7 +502,7 @@ de tratamiento ($D_{i}=1$).
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 627.7
+## [1] 633.5
 \end{verbatim}
 
 El valor de $E(\alpha_{i}/D_{i}=1)$ es muy superior al de
@@ -798,6 +798,39 @@ caso anterior.
 \subsection{Estimador de Variables
 Instrumentales}\label{estimador-de-variables-instrumentales}
 
+El estimador de variables instrumentales se utiliza para corregir por la
+presencia de variables no observables que determinan la selección en el
+programa, pero por tal característica no pueden incluirse en la ecuación
+de regresión. Para resolver este problema se utiliza una variable,
+denominada ``instrumento'', éste método es una variante del matching en
+el cual se incrementan las variables dependientes agregándo el
+mencionado instrumento ($Z_{i}$) de manera tal que:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  \[ E(U_{i1}-U_{i0}/Z_{i}, D_{i}=1)=E(U_{i1}-U_{i0}/ D_{i}=1) \]
+\item
+  \[ E(U_{i0}/Z_{i})=E(U_{i0}) \]
+\item
+  \[ \Pr(D_{i}=1/Z_{i}) \text{ depende de $Z_{i}$ y de cualquier regresor de forma no trivial} \]
+\end{enumerate}
+
+La lógica detrás de utilizar éste estimador consiste en pensar que la
+decisión de participar es endógena, de modo tal que sea posible
+reemplazar a $D_{i}$ por $Z_{i}$ en la regresión la cual está
+correlacionada con la primera y sólo afecta a $y_{it}$ a través de
+$D_{i}$.
+
+El estimador se implementa por medio de la función \texttt{ivreg},
+equivalente al \texttt{ivregress} de Stata, perteneciente a la librería
+``AER'' (``Applied Econometrics with R'') (Kleiber and Zeileis 2008),
+cuya sintaxis es similar a \texttt{lm}, pero que requiere especificar el
+instrumento luego de la ecuación de primera etapa agregando una barra
+vertical \texttt{\textbar{}}, luego se extraen los coeficientes y
+errores estándar de la misma forma que para el estimador de MCO.
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{#Cargar libreria para estimar VI}
@@ -858,6 +891,191 @@ Instrumentales}\label{estimador-de-variables-instrumentales}
 \end{Highlighting}
 \end{Shaded}
 
+\subsection{Implementación de la
+simulación}\label{implementacion-de-la-simulacion}
+
+La simulación de monetacrlo consiste en replicar 100 veces el código
+detallado en la sección anterior, guardar cada uno de los estimadores
+con sus errores estándar en una matriz de 100 filas (una por cada
+corrida) y 49 columnas (una por cada estimador) y por último, calcular
+los promedios de cada una de las columnas.
+
+En cada corrida se genera un vector de 49 estimadores, por ejemplo, el
+estimador de $\alpha_{i}$ por diferencias en diferencias entre los
+períodos $k+3$ y $k+1$ es \texttt{alfa\_dd1} (la flecha
+\texttt{\textless{}-} indica que ese valor se asigna en la memoria cada
+vez que corre la simulación). La simulación se implementa por medio de
+un bucle \texttt{for} que, para cada número entre 1 y 100, primero,
+corre el archivo donde se realizan todas las estimaciones detalladas
+previamente, luego imprime en pantalla el número de itración con el
+comando \texttt{print} y luego llena recursicamente cada columna con los
+respectivos valores del coeficiente $\alpha_{i}$ para cada estimador
+utilizado, así como también sus respectivos errores estándar, por último
+también se guardan los valores del promedio de
+$E\left(\alpha_{i}\right)$, de $E\left(\alpha_{i}\right/D_{i}=1)$, la
+media de $Z_{i}$ ($\mu_{Z}$), la correlación entre $D_{i}$ y $Z_{i}$,
+por último se guarda también el valor de $p$, la significatividad del
+coeficiente de la regresión de $D_{i}$ en $Z_{i}$ para la priemra etapa
+del estimador de variables instrumentales.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mat<-}\KeywordTok{data.frame}\NormalTok{(}\KeywordTok{matrix}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DataTypeTok{ncol=}\DecValTok{49}\NormalTok{, }\DataTypeTok{nrow=}\DecValTok{100}\NormalTok{))}
+\KeywordTok{names}\NormalTok{(mat)<-}\KeywordTok{c}\NormalTok{(}\StringTok{"alfa_cs1"}\NormalTok{, }\StringTok{"alfa_cs2"}\NormalTok{, }\StringTok{"alfa_cs3"}\NormalTok{, }\StringTok{"alfa_cs4"}\NormalTok{, }\StringTok{"alfa_dd1"}\NormalTok{,}
+               \StringTok{"alfa_dd3"}\NormalTok{, }\StringTok{"alfa_dd5"}\NormalTok{,}\StringTok{"alfa_iv1"}\NormalTok{,}\StringTok{"alfa_iv2"}\NormalTok{, }\StringTok{"alfa_iv3"}\NormalTok{, }
+               \StringTok{"alfa_iv4"}\NormalTok{, }\StringTok{"se_cs1"}\NormalTok{, }\StringTok{"se_cs2"}\NormalTok{, }\StringTok{"se_cs3"}\NormalTok{, }\StringTok{"se_cs4"}\NormalTok{,}\StringTok{"se_dd1"}\NormalTok{,}
+               \StringTok{"se_dd3"}\NormalTok{, }\StringTok{"se_dd"}\NormalTok{, }\StringTok{"se_iv1"}\NormalTok{, }\StringTok{"se_iv2"}\NormalTok{, }\StringTok{"se_iv3"}\NormalTok{, }\StringTok{"se_iv4"}\NormalTok{,}
+               \StringTok{"mean_alpha_i"}\NormalTok{, }\StringTok{"mean_alpha_i_Tr"}\NormalTok{, }\StringTok{"mu"}\NormalTok{, }\StringTok{"corDZ"}\NormalTok{, }\StringTok{"p"}\NormalTok{,}
+               \StringTok{"alfa_cs1m"}\NormalTok{, }\StringTok{"alfa_cs2m"}\NormalTok{, }\StringTok{"alfa_cs3m"}\NormalTok{, }\StringTok{"alfa_cs4m"}\NormalTok{, }\StringTok{"alfa_dd1m"}\NormalTok{,}
+               \StringTok{"alfa_dd3m"}\NormalTok{, }\StringTok{"alfa_dd5m"}\NormalTok{, }\StringTok{"alfa_iv1m"}\NormalTok{, }\StringTok{"alfa_iv2m"}\NormalTok{, }\StringTok{"alfa_iv3m"}\NormalTok{,}
+               \StringTok{"alfa_iv4m"}\NormalTok{, }\StringTok{"se_cs1m"}\NormalTok{, }\StringTok{"se_cs2m"}\NormalTok{, }\StringTok{"se_cs3m"}\NormalTok{, }\StringTok{"se_cs4m"}\NormalTok{, }\StringTok{"se_dd1m"}\NormalTok{,}
+               \StringTok{"se_dd3m"}\NormalTok{, }\StringTok{"se_dd5m"}\NormalTok{, }\StringTok{"se_iv1m"}\NormalTok{, }\StringTok{"se_iv2m"}\NormalTok{, }\StringTok{"se_iv3m"}\NormalTok{, }\StringTok{"se_iv4m"}\NormalTok{)}
+
+\NormalTok{for(w in }\DecValTok{1}\NormalTok{:}\DecValTok{100}\NormalTok{)\{}
+  \KeywordTok{source}\NormalTok{(}\StringTok{'C:/Users/VictorF/Documents/PracticoEI/Practico.R'}\NormalTok{, }\DataTypeTok{local=}\OtherTok{TRUE}\NormalTok{)}
+  \KeywordTok{print}\NormalTok{(}\KeywordTok{paste}\NormalTok{(}\StringTok{"Simulacion: "}\NormalTok{, w, }\StringTok{""}\NormalTok{))}
+  \NormalTok{mat[w,}\DecValTok{1}\NormalTok{]<-alfa_cs1}
+  \NormalTok{mat[w,}\DecValTok{2}\NormalTok{]<-alfa_cs2}
+  \NormalTok{mat[w,}\DecValTok{3}\NormalTok{]<-alfa_cs3}
+  \NormalTok{mat[w,}\DecValTok{4}\NormalTok{]<-alfa_cs4}
+  \NormalTok{mat[w,}\DecValTok{5}\NormalTok{]<-alfa_dd1}
+  \NormalTok{mat[w,}\DecValTok{6}\NormalTok{]<-alfa_dd3}
+  \NormalTok{mat[w,}\DecValTok{7}\NormalTok{]<-alfa_dd5}
+  \NormalTok{mat[w,}\DecValTok{8}\NormalTok{]<-alfa_iv1}
+  \NormalTok{mat[w,}\DecValTok{9}\NormalTok{]<-alfa_iv2}
+  \NormalTok{mat[w,}\DecValTok{10}\NormalTok{]<-alfa_iv3}
+  \NormalTok{mat[w,}\DecValTok{11}\NormalTok{]<-alfa_iv4}
+  \NormalTok{mat[w,}\DecValTok{12}\NormalTok{]<-se_cs1}
+  \NormalTok{mat[w,}\DecValTok{13}\NormalTok{]<-se_cs2}
+  \NormalTok{mat[w,}\DecValTok{14}\NormalTok{]<-se_cs3}
+  \NormalTok{mat[w,}\DecValTok{15}\NormalTok{]<-se_cs4}
+  \NormalTok{mat[w,}\DecValTok{16}\NormalTok{]<-se_dd1}
+  \NormalTok{mat[w,}\DecValTok{17}\NormalTok{]<-se_dd3}
+  \NormalTok{mat[w,}\DecValTok{18}\NormalTok{]<-se_dd5}
+  \NormalTok{mat[w,}\DecValTok{19}\NormalTok{]<-se_iv1}
+  \NormalTok{mat[w,}\DecValTok{20}\NormalTok{]<-se_iv2}
+  \NormalTok{mat[w,}\DecValTok{21}\NormalTok{]<-se_iv3}
+  \NormalTok{mat[w,}\DecValTok{22}\NormalTok{]<-se_iv4}
+  \NormalTok{mat[w,}\DecValTok{23}\NormalTok{]<-mean_alpha_i}
+  \NormalTok{mat[w,}\DecValTok{24}\NormalTok{]<-mean_alpha_i_Tr}
+  \NormalTok{mat[w,}\DecValTok{25}\NormalTok{]<-mu}
+  \NormalTok{mat[w,}\DecValTok{26}\NormalTok{]<-corDZ}
+  \NormalTok{mat[w,}\DecValTok{27}\NormalTok{]<-p}
+  \NormalTok{mat[w,}\DecValTok{28}\NormalTok{]<-alfa_cs1m}
+  \NormalTok{mat[w,}\DecValTok{29}\NormalTok{]<-alfa_cs2m}
+  \NormalTok{mat[w,}\DecValTok{30}\NormalTok{]<-alfa_cs3m}
+  \NormalTok{mat[w,}\DecValTok{31}\NormalTok{]<-alfa_cs4m}
+  \NormalTok{mat[w,}\DecValTok{32}\NormalTok{]<-alfa_dd1m}
+  \NormalTok{mat[w,}\DecValTok{33}\NormalTok{]<-alfa_dd3m}
+  \NormalTok{mat[w,}\DecValTok{34}\NormalTok{]<-alfa_dd5m}
+  \NormalTok{mat[w,}\DecValTok{35}\NormalTok{]<-alfa_iv1m}
+  \NormalTok{mat[w,}\DecValTok{36}\NormalTok{]<-alfa_iv2m}
+  \NormalTok{mat[w,}\DecValTok{37}\NormalTok{]<-alfa_iv3m}
+  \NormalTok{mat[w,}\DecValTok{38}\NormalTok{]<-alfa_iv4m}
+  \NormalTok{mat[w,}\DecValTok{39}\NormalTok{]<-se_cs1m}
+  \NormalTok{mat[w,}\DecValTok{40}\NormalTok{]<-se_cs2m}
+  \NormalTok{mat[w,}\DecValTok{41}\NormalTok{]<-se_cs3m}
+  \NormalTok{mat[w,}\DecValTok{42}\NormalTok{]<-se_cs4m}
+  \NormalTok{mat[w,}\DecValTok{43}\NormalTok{]<-se_dd1m}
+  \NormalTok{mat[w,}\DecValTok{44}\NormalTok{]<-se_dd3m}
+  \NormalTok{mat[w,}\DecValTok{45}\NormalTok{]<-se_dd5m}
+  \NormalTok{mat[w,}\DecValTok{46}\NormalTok{]<-se_iv1m}
+  \NormalTok{mat[w,}\DecValTok{47}\NormalTok{]<-se_iv2m}
+  \NormalTok{mat[w,}\DecValTok{48}\NormalTok{]<-se_iv3m}
+  \NormalTok{mat[w,}\DecValTok{49}\NormalTok{]<-se_iv4m}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Esta simulación se corre dos veces, la primera para el modelo de
+coeficientes aleatorios y la segunda para el de coeficientes fijos
+($\alpha_{i}=\alpha=100$, $\forall i$), luego se calculan los promedios
+por columna de cada estimador.
+
+Las matrices de estimadores se guardan bajo los nombres \texttt{mat\_al}
+para los del modelo de efectos aleatorios y \texttt{mat\_com} para los
+del modelo de efectos comunes. El sesgo de los estimadores de $\alpha$
+se define de la siguiente forma:
+
+\[ Sesgo(\hat{\alpha})=\hat{\alpha}-\alpha \]
+
+Donde $\hat{\alpha}$ es un estimador cualquiera de $\alpha$ y el otro
+componente es el valor poblacional del coeficiente $\alpha$. Para
+replicar las tablas de Heckman et Al. debe calcularse el sesgo cuando el
+parámetro de interés es $E(\alpha_{i})$ y cuando es
+$E(\alpha_{i}/D_{i}=1)$ (Tabla 10), en las matrices estimadas, éstos
+valores corresponden con las columnas número 23 y 24 de las matrices
+\texttt{mat\_al} y \texttt{mat\_com}.
+
+A continuación se estiman los vectores de sesgo para cada estimador en
+el caso de coeficientes aleatorios, para ellos se genera otra matriz
+\texttt{sesgo\_al}, donde cada columna es el sesgo de los estimadores de
+$\alpha_{i}$ en los casos apareados y no apareados. Una vez hecho ésto,
+se calcula un vector de sesgo promedio y otro con sus correspondientes
+desviaciones estándar con el comando \texttt{apply} que, como lo indica
+su nombre, aplica una funcion (media y desv. est. en este caso) por
+columnas.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Coeficientes aleatorios}
+\NormalTok{sesgo_al<-}\KeywordTok{data.frame}\NormalTok{(}\KeywordTok{matrix}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DataTypeTok{ncol=}\DecValTok{22}\NormalTok{, }\DataTypeTok{nrow=}\DecValTok{100}\NormalTok{))}
+\KeywordTok{names}\NormalTok{(sesgo_al)<-}\KeywordTok{c}\NormalTok{(}\StringTok{"alfa_cs1"}\NormalTok{, }\StringTok{"alfa_cs2"}\NormalTok{, }\StringTok{"alfa_cs3"}\NormalTok{, }\StringTok{"alfa_cs4"}\NormalTok{, }\StringTok{"alfa_dd1"}\NormalTok{,}
+                \StringTok{"alfa_dd3"}\NormalTok{, }\StringTok{"alfa_dd5"}\NormalTok{, }\StringTok{"alfa_iv1"}\NormalTok{, }\StringTok{"alfa_iv2"}\NormalTok{, }\StringTok{"alfa_iv3"}\NormalTok{,}
+                \StringTok{"alfa_iv4"}\NormalTok{, }\StringTok{"alfa_cs1m"}\NormalTok{, }\StringTok{"alfa_cs2m"}\NormalTok{, }\StringTok{"alfa_cs3m"}\NormalTok{, }\StringTok{"alfa_cs4m"}\NormalTok{,}
+                \StringTok{"alfa_dd1m"}\NormalTok{, }\StringTok{"alfa_dd3m"}\NormalTok{, }\StringTok{"alfa_dd5m"}\NormalTok{, }\StringTok{"alfa_iv1m"}\NormalTok{, }\StringTok{"alfa_iv2m"}\NormalTok{,}
+                \StringTok{"alfa_iv3m"}\NormalTok{, }\StringTok{"alfa_iv4m"}\NormalTok{)}
+
+\CommentTok{#Sesgo con relación a E(alpha)}
+\NormalTok{for(i in }\DecValTok{1}\NormalTok{:}\DecValTok{11}\NormalTok{)\{}
+  \NormalTok{sesgo_al[,i]<-mat_al[,i]-mat_al[,}\DecValTok{23}\NormalTok{]}
+\NormalTok{\}}
+\NormalTok{for(i in }\DecValTok{1}\NormalTok{:}\DecValTok{11}\NormalTok{)\{}
+  \NormalTok{sesgo_al[,i}\DecValTok{+11}\NormalTok{]<-mat_al[,i}\DecValTok{+27}\NormalTok{]-mat_al[,}\DecValTok{23}\NormalTok{]}
+\NormalTok{\}}
+\NormalTok{alpha_s1<-}\KeywordTok{apply}\NormalTok{(sesgo_al, }\DecValTok{2}\NormalTok{, mean)}
+\NormalTok{se_s1   <-}\KeywordTok{apply}\NormalTok{(sesgo_al, }\DecValTok{2}\NormalTok{, sd)}
+
+\CommentTok{#Sesgo con relación a E(alpha/D=1)}
+\NormalTok{for(i in }\DecValTok{1}\NormalTok{:}\DecValTok{11}\NormalTok{)\{}
+  \NormalTok{sesgo_al[,i]<-mat_al[,i]-mat_al[,}\DecValTok{24}\NormalTok{]}
+\NormalTok{\}}
+\NormalTok{for(i in }\DecValTok{1}\NormalTok{:}\DecValTok{11}\NormalTok{)\{}
+  \NormalTok{sesgo_al[,i}\DecValTok{+11}\NormalTok{]<-mat_al[,i}\DecValTok{+27}\NormalTok{]-mat_al[,}\DecValTok{24}\NormalTok{]}
+\NormalTok{\}}
+\NormalTok{alpha_s2<-}\KeywordTok{apply}\NormalTok{(sesgo_al, }\DecValTok{2}\NormalTok{, mean)}
+\NormalTok{se_s2   <-}\KeywordTok{apply}\NormalTok{(sesgo_al, }\DecValTok{2}\NormalTok{, sd)}
+
+\CommentTok{#Coeficientes comunes}
+\NormalTok{sesgo_com<-}\KeywordTok{data.frame}\NormalTok{(}\KeywordTok{matrix}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DataTypeTok{ncol=}\DecValTok{22}\NormalTok{, }\DataTypeTok{nrow=}\DecValTok{100}\NormalTok{))}
+\KeywordTok{names}\NormalTok{(sesgo_com)<-}\KeywordTok{c}\NormalTok{(}\StringTok{"alfa_cs1"}\NormalTok{, }\StringTok{"alfa_cs2"}\NormalTok{, }\StringTok{"alfa_cs3"}\NormalTok{, }\StringTok{"alfa_cs4"}\NormalTok{, }\StringTok{"alfa_dd1"}\NormalTok{,}
+                \StringTok{"alfa_dd3"}\NormalTok{, }\StringTok{"alfa_dd5"}\NormalTok{, }\StringTok{"alfa_iv1"}\NormalTok{, }\StringTok{"alfa_iv2"}\NormalTok{, }\StringTok{"alfa_iv3"}\NormalTok{,}
+                \StringTok{"alfa_iv4"}\NormalTok{, }\StringTok{"alfa_cs1m"}\NormalTok{, }\StringTok{"alfa_cs2m"}\NormalTok{, }\StringTok{"alfa_cs3m"}\NormalTok{, }\StringTok{"alfa_cs4m"}\NormalTok{,}
+                \StringTok{"alfa_dd1m"}\NormalTok{, }\StringTok{"alfa_dd3m"}\NormalTok{, }\StringTok{"alfa_dd5m"}\NormalTok{, }\StringTok{"alfa_iv1m"}\NormalTok{, }\StringTok{"alfa_iv2m"}\NormalTok{,}
+                \StringTok{"alfa_iv3m"}\NormalTok{, }\StringTok{"alfa_iv4m"}\NormalTok{)}
+
+\CommentTok{#Sesgo con relación a E(alpha)}
+\NormalTok{for(i in }\DecValTok{1}\NormalTok{:}\DecValTok{11}\NormalTok{)\{}
+  \NormalTok{sesgo_com[,i]<-mat_com[,i]-mat_com[,}\DecValTok{23}\NormalTok{]}
+\NormalTok{\}}
+\NormalTok{for(i in }\DecValTok{1}\NormalTok{:}\DecValTok{11}\NormalTok{)\{}
+  \NormalTok{sesgo_com[,i}\DecValTok{+11}\NormalTok{]<-mat_com[,i}\DecValTok{+27}\NormalTok{]-mat_com[,}\DecValTok{23}\NormalTok{]}
+\NormalTok{\}}
+\NormalTok{alpha_c1<-}\KeywordTok{apply}\NormalTok{(sesgo_com, }\DecValTok{2}\NormalTok{, mean)}
+\NormalTok{se_c1   <-}\KeywordTok{apply}\NormalTok{(sesgo_al, }\DecValTok{2}\NormalTok{, sd)}
+
+\CommentTok{#Sesgo con relación a E(alpha/D=1)}
+\NormalTok{for(i in }\DecValTok{1}\NormalTok{:}\DecValTok{11}\NormalTok{)\{}
+  \NormalTok{sesgo_com[,i]<-mat_com[,i]-mat_com[,}\DecValTok{24}\NormalTok{]}
+\NormalTok{\}}
+\NormalTok{for(i in }\DecValTok{1}\NormalTok{:}\DecValTok{11}\NormalTok{)\{}
+  \NormalTok{sesgo_com[,i}\DecValTok{+11}\NormalTok{]<-mat_com[,i}\DecValTok{+27}\NormalTok{]-mat_com[,}\DecValTok{24}\NormalTok{]}
+\NormalTok{\}}
+\NormalTok{alpha_c2<-}\KeywordTok{apply}\NormalTok{(sesgo_com, }\DecValTok{2}\NormalTok{, mean)}
+\NormalTok{se_c2   <-}\KeywordTok{apply}\NormalTok{(sesgo_al, }\DecValTok{2}\NormalTok{, sd)}
+\end{Highlighting}
+\end{Shaded}
+
 \newpage
 
 \section{References}\label{references}
@@ -879,6 +1097,9 @@ Labor Economics}, edited by Orley Ashenfelter and David Card,
 Ho, Daniel, Kosuke Imai, Gary King, and Elizabeth Stuart. 2011.
 ``MatchIt: Nonparametric Processing for Parametric Causal Inference.''
 \emph{Journal of Statistical Software} 42 (8): 1--28.
+
+Kleiber, Christian, and Achim Zeileis. 2008. \emph{Applied Econometrics
+with R}. Spring Street, New York, USA: Springer.
 
 Zeileis, Achim. 2006. ``Object-Oriented Computation of Sandwich
 Estimators.'' \emph{Journal of Statistical Software} 16 (9) (August 15):

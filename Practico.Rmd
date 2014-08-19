@@ -408,6 +408,16 @@ se_dd5m<-summary(regdd5m)$coefficients[2,2]
 
 ## Estimador de Variables Instrumentales
 
+El estimador de variables instrumentales se utiliza para corregir por la presencia de variables no observables que determinan la selección en el programa, pero por tal característica no pueden incluirse en la ecuación de regresión. Para resolver este problema se utiliza una variable, denominada "instrumento", éste método es una variante del matching en el cual se incrementan las variables dependientes agregándo el mencionado instrumento ($Z_{i}$) de manera tal que:
+
+1. $$ E(U_{i1}-U_{i0}/Z_{i}, D_{i}=1)=E(U_{i1}-U_{i0}/ D_{i}=1) $$
+2. $$ E(U_{i0}/Z_{i})=E(U_{i0}) $$
+3. $$ \Pr(D_{i}=1/Z_{i}) \text{ depende de $Z_{i}$ y de cualquier regresor de forma no trivial} $$ 
+
+La lógica detrás de utilizar éste estimador consiste en pensar que la decisión de participar es endógena, de modo tal que sea posible reemplazar a $D_{i}$ por $Z_{i}$ en la regresión la cual está correlacionada con la primera y sólo afecta a $y_{it}$ a través de $D_{i}$.
+
+El estimador se implementa por medio de la función ``ivreg``, equivalente al ``ivregress`` de Stata, perteneciente a la librería "AER" ("Applied Econometrics with R") [@AER], cuya sintaxis es similar a ``lm``, pero que requiere especificar el instrumento luego de la ecuación de primera etapa agregando una barra vertical ``|``, luego se extraen los coeficientes y errores estándar de la misma forma que para el estimador de MCO.
+
 ```{r, eval=FALSE}
 #Cargar libreria para estimar VI
 library(AER)
@@ -465,6 +475,155 @@ regiv4m<-ivreg(y_10~D_i|Z_i, data=matched)
 alfa_iv4m<-summary(regiv4m)$coefficients[2,1]
 se_iv4m<-summary(regiv4m)$coefficients[2,2]
 ```
+
+## Implementación de la simulación
+
+La simulación de monetacrlo consiste en replicar 100 veces el código detallado en la sección anterior, guardar cada uno de los estimadores con sus errores estándar en una matriz de 100 filas (una por cada corrida) y 49 columnas (una por cada estimador) y por último, calcular los promedios de cada una de las columnas.
+
+En cada corrida se genera un vector de 49 estimadores, por ejemplo, el estimador de $\alpha_{i}$ por diferencias en diferencias entre los períodos $k+3$ y $k+1$ es  ``alfa_dd1`` (la flecha ``<-`` indica que ese valor se asigna en la memoria cada vez que corre la simulación). La simulación se implementa por medio de un bucle ``for`` que, para cada número entre 1 y 100, primero, corre el archivo donde se realizan todas las estimaciones detalladas previamente, luego imprime en pantalla el número de itración con el comando ``print`` y luego llena recursicamente cada columna con los respectivos valores del coeficiente $\alpha_{i}$ para cada estimador utilizado, así como también sus respectivos errores estándar, por último también se guardan los valores del promedio de $E\left(\alpha_{i}\right)$, de $E\left(\alpha_{i}\right/D_{i}=1)$, la media de $Z_{i}$ ($\mu_{Z}$), la correlación entre $D_{i}$ y $Z_{i}$, por último se guarda también el valor de $p$, la significatividad del coeficiente de la regresión de $D_{i}$ en $Z_{i}$ para la priemra etapa del estimador de variables instrumentales.
+
+```{r, eval=FALSE}
+mat<-data.frame(matrix(0, ncol=49, nrow=100))
+names(mat)<-c("alfa_cs1", "alfa_cs2", "alfa_cs3", "alfa_cs4", "alfa_dd1",
+               "alfa_dd3", "alfa_dd5","alfa_iv1","alfa_iv2", "alfa_iv3", 
+               "alfa_iv4", "se_cs1", "se_cs2", "se_cs3", "se_cs4","se_dd1",
+               "se_dd3", "se_dd", "se_iv1", "se_iv2", "se_iv3", "se_iv4",
+               "mean_alpha_i", "mean_alpha_i_Tr", "mu", "corDZ", "p",
+               "alfa_cs1m", "alfa_cs2m", "alfa_cs3m", "alfa_cs4m", "alfa_dd1m",
+               "alfa_dd3m", "alfa_dd5m", "alfa_iv1m", "alfa_iv2m", "alfa_iv3m",
+               "alfa_iv4m", "se_cs1m", "se_cs2m", "se_cs3m", "se_cs4m", "se_dd1m",
+               "se_dd3m", "se_dd5m", "se_iv1m", "se_iv2m", "se_iv3m", "se_iv4m")
+
+for(w in 1:100){
+  source('C:/Users/VictorF/Documents/PracticoEI/Practico.R', local=TRUE)
+  print(paste("Simulacion: ", w, ""))
+  mat[w,1]<-alfa_cs1
+  mat[w,2]<-alfa_cs2
+  mat[w,3]<-alfa_cs3
+  mat[w,4]<-alfa_cs4
+  mat[w,5]<-alfa_dd1
+  mat[w,6]<-alfa_dd3
+  mat[w,7]<-alfa_dd5
+  mat[w,8]<-alfa_iv1
+  mat[w,9]<-alfa_iv2
+  mat[w,10]<-alfa_iv3
+  mat[w,11]<-alfa_iv4
+  mat[w,12]<-se_cs1
+  mat[w,13]<-se_cs2
+  mat[w,14]<-se_cs3
+  mat[w,15]<-se_cs4
+  mat[w,16]<-se_dd1
+  mat[w,17]<-se_dd3
+  mat[w,18]<-se_dd5
+  mat[w,19]<-se_iv1
+  mat[w,20]<-se_iv2
+  mat[w,21]<-se_iv3
+  mat[w,22]<-se_iv4
+  mat[w,23]<-mean_alpha_i
+  mat[w,24]<-mean_alpha_i_Tr
+  mat[w,25]<-mu
+  mat[w,26]<-corDZ
+  mat[w,27]<-p
+  mat[w,28]<-alfa_cs1m
+  mat[w,29]<-alfa_cs2m
+  mat[w,30]<-alfa_cs3m
+  mat[w,31]<-alfa_cs4m
+  mat[w,32]<-alfa_dd1m
+  mat[w,33]<-alfa_dd3m
+  mat[w,34]<-alfa_dd5m
+  mat[w,35]<-alfa_iv1m
+  mat[w,36]<-alfa_iv2m
+  mat[w,37]<-alfa_iv3m
+  mat[w,38]<-alfa_iv4m
+  mat[w,39]<-se_cs1m
+  mat[w,40]<-se_cs2m
+  mat[w,41]<-se_cs3m
+  mat[w,42]<-se_cs4m
+  mat[w,43]<-se_dd1m
+  mat[w,44]<-se_dd3m
+  mat[w,45]<-se_dd5m
+  mat[w,46]<-se_iv1m
+  mat[w,47]<-se_iv2m
+  mat[w,48]<-se_iv3m
+  mat[w,49]<-se_iv4m
+}
+```
+
+Esta simulación se corre dos veces, la primera para el modelo de coeficientes aleatorios y la segunda para el de coeficientes fijos ($\alpha_{i}=\alpha=100$, $\forall i$), luego se calculan los promedios por columna de cada estimador.
+
+```{r, echo=FALSE}
+mat_al<-read.csv("C:/Users/VictorF/Documents/PracticoEI/montecarlo-aleatorios.csv", sep="")
+
+mat_com<-read.csv("C:/Users/VictorF/Documents/PracticoEI/montecarlo-comunes.csv", sep="")
+```
+
+Las matrices de estimadores se guardan bajo los nombres ``mat_al`` para los del modelo de efectos aleatorios y ``mat_com`` para los del modelo de efectos comunes. El sesgo de los estimadores de $\alpha$ se define de la siguiente forma:
+
+$$ Sesgo(\hat{\alpha})=\hat{\alpha}-\alpha $$
+
+Donde $\hat{\alpha}$ es un estimador cualquiera de $\alpha$ y el otro componente es el valor poblacional del coeficiente $\alpha$. Para replicar las tablas de Heckman et Al. debe calcularse el sesgo cuando el parámetro de interés es $E(\alpha_{i})$ y cuando es $E(\alpha_{i}/D_{i}=1)$ (Tabla 10), en las matrices estimadas, éstos valores corresponden con las columnas número 23 y 24 de las matrices ``mat_al`` y ``mat_com``.
+
+A continuación se estiman los vectores de sesgo para cada estimador en el caso de coeficientes aleatorios, para ellos se genera otra matriz ``sesgo_al``, donde cada columna es el sesgo de los estimadores de $\alpha_{i}$ en los casos apareados y no apareados. Una vez hecho ésto, se calcula un vector de sesgo promedio y otro con sus correspondientes desviaciones estándar con el comando ``apply`` que, como lo indica su nombre, aplica una funcion (media y desv. est. en este caso) por columnas.
+
+```{r}
+#Coeficientes aleatorios
+sesgo_al<-data.frame(matrix(0, ncol=22, nrow=100))
+names(sesgo_al)<-c("alfa_cs1", "alfa_cs2", "alfa_cs3", "alfa_cs4", "alfa_dd1",
+                "alfa_dd3", "alfa_dd5", "alfa_iv1", "alfa_iv2", "alfa_iv3",
+                "alfa_iv4", "alfa_cs1m", "alfa_cs2m", "alfa_cs3m", "alfa_cs4m",
+                "alfa_dd1m", "alfa_dd3m", "alfa_dd5m", "alfa_iv1m", "alfa_iv2m",
+                "alfa_iv3m", "alfa_iv4m")
+
+#Sesgo con relación a E(alpha)
+for(i in 1:11){
+  sesgo_al[,i]<-mat_al[,i]-mat_al[,23]
+}
+for(i in 1:11){
+  sesgo_al[,i+11]<-mat_al[,i+27]-mat_al[,23]
+}
+alpha_s1<-apply(sesgo_al, 2, mean)
+se_s1   <-apply(sesgo_al, 2, sd)
+
+#Sesgo con relación a E(alpha/D=1)
+for(i in 1:11){
+  sesgo_al[,i]<-mat_al[,i]-mat_al[,24]
+}
+for(i in 1:11){
+  sesgo_al[,i+11]<-mat_al[,i+27]-mat_al[,24]
+}
+alpha_s2<-apply(sesgo_al, 2, mean)
+se_s2   <-apply(sesgo_al, 2, sd)
+
+#Coeficientes comunes
+sesgo_com<-data.frame(matrix(0, ncol=22, nrow=100))
+names(sesgo_com)<-c("alfa_cs1", "alfa_cs2", "alfa_cs3", "alfa_cs4", "alfa_dd1",
+                "alfa_dd3", "alfa_dd5", "alfa_iv1", "alfa_iv2", "alfa_iv3",
+                "alfa_iv4", "alfa_cs1m", "alfa_cs2m", "alfa_cs3m", "alfa_cs4m",
+                "alfa_dd1m", "alfa_dd3m", "alfa_dd5m", "alfa_iv1m", "alfa_iv2m",
+                "alfa_iv3m", "alfa_iv4m")
+
+#Sesgo con relación a E(alpha)
+for(i in 1:11){
+  sesgo_com[,i]<-mat_com[,i]-mat_com[,23]
+}
+for(i in 1:11){
+  sesgo_com[,i+11]<-mat_com[,i+27]-mat_com[,23]
+}
+alpha_c1<-apply(sesgo_com, 2, mean)
+se_c1   <-apply(sesgo_al, 2, sd)
+
+#Sesgo con relación a E(alpha/D=1)
+for(i in 1:11){
+  sesgo_com[,i]<-mat_com[,i]-mat_com[,24]
+}
+for(i in 1:11){
+  sesgo_com[,i+11]<-mat_com[,i+27]-mat_com[,24]
+}
+alpha_c2<-apply(sesgo_com, 2, mean)
+se_c2   <-apply(sesgo_al, 2, sd)
+```
+
+
 
 \newpage
 

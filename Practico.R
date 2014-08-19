@@ -5,7 +5,7 @@ r<-0.1
 rho<- 0.78
 phi<-1
 mean_alpha<-100
-sd_alpha<-300 #(=0 para el modelo de coeficientes comunes, =300 para coef. aleatorios)
+sd_alpha<-0 #(=0 para el modelo de coeficientes comunes, =300 para coef. aleatorios)
 mean_theta<-0
 sd_theta<-300
 mean_epsilon<-0
@@ -52,8 +52,8 @@ for(k in 2:5){
 #phi=1; V_i~N(0,200); Z_i~N(mu_z, 300)
 
 #comando while - itera hasta que se cumpla la condición
-#mu<-700 #Coeficientes comunes
-mu<-4000 #Coeficientes aleatorios
+mu<-700 #Coeficientes comunes
+#mu<-4000 #Coeficientes aleatorios
 ntreated<-0
 y<-beta+alpha_i*D_i+theta_i+U_it[,6]
 while(ntreated!=100){
