@@ -1,0 +1,113 @@
+% $ biblatex auxiliary file $
+% $ biblatex version 2.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated as
+% required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+\entry{MHE}{book}{}
+  \name{author}{2}{}{%
+    {{}%
+     {Angrist}{A.}%
+     {Joshua}{J.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Pischke}{P.}%
+     {Jörn~Steffen}{J.~S.}%
+     {}{}%
+     {}{}}%
+  }
+  \list{publisher}{1}{%
+    {Princeton University Press}%
+  }
+  \strng{namehash}{AJPJS1}
+  \strng{fullhash}{AJPJS1}
+  \field{labelyear}{2009}
+  \field{sortinit}{A}
+  \field{title}{Mostly Harmless Econometrics}
+  \list{location}{1}{%
+    {Princeton, NJ}%
+  }
+  \field{year}{2009}
+\endentry
+
+\entry{Ash1978}{article}{}
+  \name{author}{1}{}{%
+    {{}%
+     {Ashenfelter}{A.}%
+     {Orley}{O.}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{AO1}
+  \strng{fullhash}{AO1}
+  \field{labelyear}{1978}
+  \field{sortinit}{A}
+  \field{number}{1}
+  \field{pages}{47\bibrangedash 57}
+  \field{title}{Estimating the Effect of Training Programs on Earnings}
+  \field{volume}{6}
+  \field{journaltitle}{Review of Economics and Statistics}
+  \field{year}{1978}
+\endentry
+
+\entry{HLS1999}{incollection}{}
+  \name{author}{3}{}{%
+    {{}%
+     {Heckman}{H.}%
+     {James}{J.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Lalonde}{L.}%
+     {Robert}{R.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Smith}{S.}%
+     {Jeffrey}{J.}%
+     {}{}%
+     {}{}}%
+  }
+  \name{editor}{2}{}{%
+    {{}%
+     {Ashenfelter}{A.}%
+     {Orley}{O.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Card}{C.}%
+     {David}{D.}%
+     {}{}%
+     {}{}}%
+  }
+  \list{publisher}{1}{%
+    {Elsevier Science Publishers}%
+  }
+  \strng{namehash}{HJLRSJ1}
+  \strng{fullhash}{HJLRSJ1}
+  \field{labelyear}{1999}
+  \field{sortinit}{H}
+  \field{booktitle}{Handbook of Labor Economics}
+  \field{pages}{1865\bibrangedash 2097}
+  \field{title}{The Economics and Econometrics of Active Labor Market Programs}
+  \field{volume}{3A}
+  \field{year}{1999}
+\endentry
+
+\lossort
+\endlossort
+
+\endinput

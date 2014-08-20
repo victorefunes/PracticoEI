@@ -1,4 +1,4 @@
-#Par?metros del modelo
+#Parametros del modelo
 n<-1000
 beta<-rep(1000,n)
 r<-0.1
@@ -56,20 +56,25 @@ mu<-700 #Coeficientes comunes
 #mu<-4000 #Coeficientes aleatorios
 ntreated<-0
 y<-beta+alpha_i*D_i+theta_i+U_it[,6]
+pb <- winProgressBar(title="Progreso", label="0% terminado", min=0, max=100, initial=0)
+
 while(ntreated!=100){
   Z_i<-rnorm(n, mu, sd_z)
   c_i<-Z_i*phi+V_i
   D_i<-as.numeric(I((alpha_i/r-y-c_i)>0))
   ntreated<-as.numeric(table(D_i)[2])
   #print(paste("Media de u: ", mu))
-  #print(paste("N?mero de participantes: ", ntreated))  
+  #print(paste("Numero de participantes: ", ntreated))  
   #si participantes < 1000 reduce la media de u, caso contrario la aumenta
   if(ntreated<100){
     mu=mu-1
   }else{
     mu=mu+1
   }
+  info <- sprintf("%d%% terminado", round((i/100)*100))
+  setWinProgressBar(pb, i/(100)*100, label=info)
 }
+close(pb)
 
 #Reemplazo valores para el período 6 (0 para los que participan-D_i=1-)
 dat[,6]<-(1-D_i)*(beta+alpha_i+theta_i+U_it[,6])
@@ -123,8 +128,8 @@ for(j in 1:10){
 Periodo<-seq(1,10,1)
 medias<-cbind(Periodo, medias)
 
-#generar gr?ficos de las variables
-#source("C:/Users/VictorF/Dropbox/Evaluaci?n de Impacto/Practico/graficos.r")
+#generar graficos de las variables
+#source("C:/Users/VictorF/Documents/PracticoEI/graficos.r")
 
 ###Estimador Cross-section 
 

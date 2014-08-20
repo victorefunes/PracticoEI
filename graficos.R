@@ -25,5 +25,8 @@ dens1<-melt(dens, id="id")
 dist<-ggplot(dens1, aes(x=theta_i, fill=categoria)) + geom_density(alpha=.2) 
 dist<-dist+labs(color="Legend text")+labs(x=expression(theta[i]), y="Densidad", colour="variable")
 dist<-dist+theme(legend.title=element_blank())+theme(legend.position="bottom", legend.direction="horizontal")
-dist<-dist+ggtitle("Distribución de theta en el caso de coeficientes aleatorios")
+dist<-dist+ggtitle("Distribución de theta en el caso de coeficientes comunes")
 dist
+
+#ggsave("ThetaRand.eps", device=cairo_ps)
+ggsave("ThetaCOnst.eps", device=cairo_ps)

@@ -44,25 +44,6 @@
 \newcommand{\RegionMarkerTok}[1]{{#1}}
 \newcommand{\ErrorTok}[1]{\textbf{{#1}}}
 \newcommand{\NormalTok}[1]{{#1}}
-\usepackage{graphicx}
-% Redefine \includegraphics so that, unless explicit options are
-% given, the image width will not exceed the width of the page.
-% Images get their normal width if they fit onto the page, but
-% are scaled down if they would overflow the margins.
-\makeatletter
-\def\ScaleIfNeeded{%
-  \ifdim\Gin@nat@width>\linewidth
-    \linewidth
-  \else
-    \Gin@nat@width
-  \fi
-}
-\makeatother
-\let\Oldincludegraphics\includegraphics
-{%
- \catcode`\@=11\relax%
- \gdef\includegraphics{\@ifnextchar[{\Oldincludegraphics}{\Oldincludegraphics[width=\ScaleIfNeeded]}}%
-}%
 \ifxetex
   \usepackage[setpagesize=false, % page size defined by xetex
               unicode=false, % unicode breaks when used with xetex
@@ -336,7 +317,7 @@ coeficientes aleatorios.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "Media de u:  3998"
+## [1] "Media de u:  3995"
 \end{verbatim}
 
 \begin{Shaded}
@@ -385,12 +366,12 @@ medio de los valores de los primeros 6 individuos a través del comando
 
 \begin{verbatim}
 ##      y_1    y_2    y_3    y_4    y_5    y_6    y_7    y_8    y_9   y_10
-## 1 1369.1  897.2 1367.3 1161.6 1376.7 1725.6  627.6  173.4  198.6  993.5
-## 2 1800.4 1858.9 1804.9 1874.8 1779.1  726.3  401.3  213.6  625.1 1071.8
-## 3  976.3  956.5 1306.0 1724.6 1379.3 1757.3 1106.4 1314.9 1614.4 1529.2
-## 4 1121.7  833.2  860.7  598.1  547.6  592.3  310.2  289.6  420.5  668.3
-## 5  874.5 1056.8  924.4  699.4  994.6  556.5  580.6  603.6  894.3 1220.5
-## 6  800.1  827.6 1173.1 1132.9 1195.7 1136.4 1882.8 1883.9 1776.5 1365.5
+## 1  528.5  401.1  328.7  248.1  146.7  501.8  594.9  873.7  877.8  853.4
+## 2 1229.6 1089.6 1124.1 1181.8 1461.4 1628.5 1662.3 1340.1 1523.4  913.4
+## 3 1747.1 1948.1 1384.8 1221.0 1510.3 1418.9 1249.4 1570.1 1570.1 1531.5
+## 4  629.8  792.1  369.3  248.3  346.9  383.5 -107.4  383.5 1154.5 1262.7
+## 5  927.7  950.8  132.0  665.1  443.3  804.8  863.7  511.7  659.3  647.3
+## 6  921.0  846.7  843.2  711.5  877.8 1047.6 1150.6 1210.1 1063.1  973.0
 \end{verbatim}
 
 Y luego, se agregan las columnas de valores de $\alpha_{i}$ y $D_{i}$ a
@@ -443,31 +424,31 @@ para que el apareamiento sea con reemplazo.
 ## 
 ## Summary of balance for all data:
 ##          Means Treated Means Control SD Control Mean Diff eQQ Med eQQ Mean
-## distance         0.109         0.099       0.03      0.01    0.01    0.011
-## y_4            825.772      1003.089     525.58   -177.32  166.19  182.180
+## distance         0.105         0.099      0.022     0.006   0.006    0.007
+## y_4            894.830      1020.758    502.620  -125.927 131.707  133.914
 ##          eQQ Max
-## distance   0.033
-## y_4      757.410
+## distance   0.051
+## y_4      644.142
 ## 
 ## 
 ## Summary of balance for matched data:
 ##          Means Treated Means Control SD Control Mean Diff eQQ Med eQQ Mean
-## distance         0.109          0.11      0.033      0.00   0.001    0.001
-## y_4            825.772        824.59    521.751      1.18  30.604   40.421
+## distance         0.105         0.105      0.025      0.00   0.000     0.00
+## y_4            894.830       894.801    539.147      0.03   6.773    19.81
 ##          eQQ Max
-## distance    0.01
-## y_4       135.62
+## distance   0.004
+## y_4      337.943
 ## 
 ## Percent Balance Improvement:
 ##          Mean Diff. eQQ Med eQQ Mean eQQ Max
-## distance      98.85   94.19    87.33   70.24
-## y_4           99.33   81.58    77.81   82.09
+## distance      99.95   98.41    93.06   91.86
+## y_4           99.98   94.86    85.21   47.54
 ## 
 ## Sample sizes:
 ##           Control Treated
 ## All           900     100
-## Matched        93     100
-## Unmatched     807       0
+## Matched        95     100
+## Unmatched     805       0
 ## Discarded       0       0
 \end{verbatim}
 
@@ -492,7 +473,7 @@ de tratamiento ($D_{i}=1$).
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 91.17
+## [1] 99.29
 \end{verbatim}
 
 \begin{Shaded}
@@ -502,7 +483,7 @@ de tratamiento ($D_{i}=1$).
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 633.5
+## [1] 624.5
 \end{verbatim}
 
 El valor de $E(\alpha_{i}/D_{i}=1)$ es muy superior al de
@@ -511,93 +492,6 @@ tratados (ATT), mientras que la segunda es el efecto medio del
 tratamiento (ATE). Estos resultados son importantes para, luego,
 calcular el sesgo de los estimadores tras realizar la simulación de
 montecarlo.
-
-\section{Gráficos}\label{graficos}
-
-En esta sección se replicarán los gráficos de la sección 8.3.4 de
-Heckman et Al. Con el obejto de mostrar la existencia (o no) del llamado
-``Ashenfelter's dip'', fenómeno que ocurre cuando no se cumple el
-supuesto de identificación del estimador de diferencias en diferencias.
-
-El mencionado supuesto de identificación del estimador DiD afirma que,
-en ausencia del programa de entrenamineto, el cambio en los ingresos
-entre dos períodos de tiempo $t$ y $t'$ debería haber sido el mismo para
-los que participan como para los que no, esto es que se cumpla:
-
-\[ E(Y_{0t}-Y_{0t'}/D=1)=E(Y_{0t}-Y_{0t'}/D=0) \]
-
-Ashenfelter (1978)(Ashenfelter 1978) observó un hecho estilizado, el
-cual consiste en que, previo a inscribirse en un programa de
-entrenamiento los participantes experimentan una caída en sus ingresos,
-tanto en términos absolutos como relativo a los del grupo de control.
-Éste fenómeno sugiere que al menos una parte del incremento de los
-ingresos posterior a la implementación del programa se debe a una
-reversión del ingreso permanente que fuera interrumpido temporalmente
-por un shock adverso.
-
-El supuesto de identificación del estimador de diferencias en
-diferencias puede no cumplirse en la medida que el momento base $t'$
-coincida con el moemnto del ``dip'' transitorio y, si los no
-participantes no experimentan la mencionada caída, el sendero temporal
-de los ingresos será diferente entre participantes y no participantes
-entre los momentos $t$ y $t'$, en este caso el estimador DiD
-sobreestimará el efecto del entrenamiento en los participantes.
-
-Para evaluar la existencia del ``dip'' es necesario contar priemro con
-los datos del ingreso promedio por cada período de cuatro grupos, donde
-$w$ es la ponderación de la observación apareada.
-
-\begin{itemize}
-\itemsep1pt\parskip0pt\parsep0pt
-\item
-  Participantes del programa (individuos con $D_{i}=1$)
-\item
-  No participantes del programa (individuos con $D_{i}=0$)
-\item
-  No participantes apareados (individuos con $D_{i}=0$ y $w\neq 0$)
-\item
-  No participantes apareados (individuos con $D_{i}=0$ y $w=0$)
-\end{itemize}
-
-En el primer gráfico se muestra el ``Ashenfelter's dip'' para el caso de
-coeficientes fijos, dónde claramente hay una caída en el ingreso de los
-individuos que participan del programa en el año previo a iniciarlo.
-Cabe señalara que la participación en el programa de éstos, si bien
-aumenta sus ingresos, no llega a igualar a los de los no participantes,
-debido a que el obtener un beneficio positivo por participar implica que
-los individuos poseen una productividad baja y por lo tanto inferior a
-la media de la población no participante.
-
-\includegraphics{DipConstant.png}
-
-El gráfico de las distribuciones de los $\theta_{i}$ muestra que éstas
-difieren bastante entre participantes y no participantes en el caso de
-los coeficientes comunes.
-
-\includegraphics{ThetaConst.png}
-
-Para el caso de coeficientes aleatorios se observa que los resultados
-son muy diferentes:
-
-\includegraphics{DipRandom.png}
-
-La figura del ingreso promedio para cada período difiere notablemente de
-la obtenida por Heckman et Al. (Fig. 15, pág. 2023) porque se observa un
-salto de gran magnitud en los ingresos del grupo tratado a partir del
-período 7, debido a la magnitud de $alpha_{i}$.
-
-\includegraphics{ThetaRand.png}
-
-Como contracara de lo anterior, las distribuciones de los distintos
-subgrupos en el caso de los coeficientes aleatorios son muy similares,
-reflejando con mucha exactitud los resultados de Heckman.
-
-Resumiendo, la diferencia entre el caso de coeficientes fijos y el de
-coeficientes aleatorios reside en el mecanismo de seleccíon, porque en
-el segundo sólo dependerá de $\theta_{i}$ y de $U_{it}$ ya que la
-ganancia de participar es igual para todos ya que $\alpha$ es idéntico
-para todos los individuos, y es ésta autoselección la que se refleja en
-el ``dip'' mas pronunciado para éste caso.
 
 \section{Simulación de montecarlo}\label{simulacion-de-montecarlo}
 
@@ -1076,12 +970,16 @@ columnas.
 \end{Highlighting}
 \end{Shaded}
 
+\subsection{Resultados de la
+simulación}\label{resultados-de-la-simulacion}
+
+Para concluir se presentan los resultados de manera tal que se puedan
+replicar parte de las Tablas 10 y 11 de (Heckman, Lalonde, and Smith
+1999)
+
 \newpage
 
 \section{References}\label{references}
-
-Ashenfelter, Orley. 1978. ``Estimating the Effect of Training Programs
-on Earnings.'' \emph{Review of Economics and Statistics} 6 (1): 47--57.
 
 Cameron, A. Colin, Jonah B. Gelbach, and Douglas L. Miller. 2011.
 ``Robust Inference with Multiway Clustering.'' \emph{Journal of Business
